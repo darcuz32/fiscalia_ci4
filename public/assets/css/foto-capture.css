@@ -1,0 +1,86 @@
+/*
+ * foto-capture.css
+ *
+ * Estilos del componente FotoCapture (assets/js/foto-capture.js).
+ * Ver assets/docs/foto-capture-readme.md para uso.
+ *
+ * Convenciones:
+ *   - Refuerza .foto-wrap para soportar DOS botones lado a lado (Subir + Tomar).
+ *   - .foto-capture-video y .foto-capture-preview comparten tamaño/forma.
+ *   - Sin dependencias nuevas: usa Bootstrap 5 + mdi icons del proyecto.
+ */
+
+/* ─── Modal stage ─────────────────────────────────────────────────────── */
+.foto-capture-stage {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    min-height: 320px;
+}
+
+.foto-capture-video-wrap,
+.foto-capture-preview-wrap {
+    width: 100%;
+    max-width: 560px;
+    text-align: center;
+}
+
+.foto-capture-video,
+.foto-capture-preview {
+    width: 100%;
+    max-height: 360px;
+    background: #000;
+    border-radius: 6px;
+    object-fit: contain;
+}
+
+.foto-capture-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.foto-capture-status {
+    min-height: 1.2em;
+    display: inline-block;
+}
+
+/* ─── Doble botón en .foto-wrap ───────────────────────────────────────── */
+/* ponytail: la vista conserva el patrón original "label azul sobre input
+   transparente" para Subir (zero-diff con el flujo de file picker existente);
+   sólo añadimos .foto-capture-trigger al lado como botón real. */
+
+.foto-wrap.foto-wrap--dual {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* ponytail: el <input type="file"> viene con `position:absolute; inset:0` desde
+   el CSS inline de la vista (regla .foto-wrap input[type="file"]). Sin este
+   wrapper con position:relative, el input cubriría TODO .foto-wrap (incluido
+   el botón Tomar) e interceptaría el click → abriría el file picker en lugar
+   del modal de cámara. El wrapper acota el input al área del label "Subir". */
+.foto-label-wrap {
+    position: relative;
+    display: inline-flex;
+    cursor: pointer;
+}
+
+.foto-wrap--dual .foto-capture-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    padding: 6px 10px;
+    white-space: nowrap;
+}
+
+/* ponytail: el modal está pensado para un disparador a la vez; si llegara a
+   haber dos, evitamos que choquen los streams. */
+.foto-capture-trigger[disabled] {
+    cursor: progress;
+    opacity: 0.7;
+}

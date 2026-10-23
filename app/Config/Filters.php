@@ -34,6 +34,7 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
+        'permission' => \App\Filters\PermissionFilter::class,
     ];
 
     /**
@@ -72,6 +73,7 @@ class Filters extends BaseFilters
      */
     public array $globals = [
         'before' => [
+            'permission' => ['except' => ['login', 'login/*', 'noaccess', 'changepassword', 'changepassword/*']],
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',

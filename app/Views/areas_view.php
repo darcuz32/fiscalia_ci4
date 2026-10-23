@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="es" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg"
+    data-sidebar-image="none" data-preloader="disable">
+
+<head>
+    <?php echo $head; ?>
+    <!--datatable css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+</head>
+
+<body>
+    <div id="layout-wrapper">
+        <?php echo $header; ?>
+        <?php echo $sidebar; ?>
+        <div class="vertical-overlay"></div>
+
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="card-title mb-0">Áreas</h5>
+                                    <button class="btn btn-primary btn-sm" id="btnNuevo">
+                                        <i class="mdi mdi-plus"></i> Nueva área
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <table id="datatable" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Nombre</th>
+                                                <th>Opciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <script>document.write(new Date().getFullYear())</script> © Novarum.app
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Modal crear/editar -->
+    <div class="modal fade" id="modalArea" tabindex="-1" aria-labelledby="modalAreaLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAreaLabel">Área</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="areaId">
+                    <div class="mb-3">
+                        <label for="areaNombre" class="form-label">Nombre <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="areaNombre" maxlength="200" placeholder="Ej. Ministerio Público, Atención Ciudadana...">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnGuardarArea">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal confirmar eliminar -->
+    <div class="modal fade" id="modalEliminar" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Deseas eliminar esta área?
+                    <input type="hidden" id="eliminarId">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner-border text-primary avatar-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <?php echo $js; ?>
+    <script src="<?= base_url();?>assets/cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="<?= base_url();?>assets/cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="<?= base_url();?>assets/cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script src="<?= base_url();?>assets/cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+
+    <script type="text/javascript">
+        var table;
+        var baseUrl = '<?= base_url(); ?>';
+
+        $(document).ready(function () {
+            table = $('#datatable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: { url: baseUrl + 'areas/loaddata', type: 'GET' },
+                language: { url: '//cdn.datatables.net/plug-ins/1.11.5/i18n/es-MX.json' }
+            });
+
+            // Nuevo
+            $('#btnNuevo').click(function () {
+                $('#areaId').val('');
+                $('#areaNombre').val('');
+                $('#modalAreaLabel').text('Nueva área');
+                $('#modalArea').modal('show');
+            });
+
+            // Editar
+            $('#datatable tbody').on('click', '.btn-edit', function () {
+                $('#areaId').val($(this).data('id'));
+                $('#areaNombre').val($(this).data('nombre'));
+                $('#modalAreaLabel').text('Editar área');
+                $('#modalArea').modal('show');
+            });
+
+            // Eliminar
+            $('#datatable tbody').on('click', '.btn-delete', function () {
+                $('#eliminarId').val($(this).data('id'));
+                $('#modalEliminar').modal('show');
+            });
+
+            // Guardar (crear / editar)
+            $('#btnGuardarArea').click(function () {
+                var id     = $('#areaId').val();
+                var nombre = $('#areaNombre').val().trim();
+                if (!nombre) { toastr.error('El nombre es requerido'); return; }
+
+                var url     = id ? baseUrl + 'areas/editar' : baseUrl + 'areas/guardar';
+                var payload = { nombre: nombre };
+                if (id) payload.id = id;
+
+                $.post(url, payload, function (res) {
+                    var r = (res);
+                    if (r.success) {
+                        $('#modalArea').modal('hide');
+                        table.ajax.reload();
+                        toastr.success('Guardado correctamente');
+                    } else {
+                        toastr.error(r.message || 'Ocurrió un error al guardar');
+                    }
+                });
+            });
+
+            // Confirmar eliminar
+            $('#btnConfirmarEliminar').click(function () {
+                var id = $('#eliminarId').val();
+                $.post(baseUrl + 'areas/eliminar', { id: id }, function (res) {
+                    var r = (res);
+                    if (r.success) {
+                        $('#modalEliminar').modal('hide');
+                        table.ajax.reload();
+                        toastr.success('Eliminado correctamente');
+                    } else {
+                        toastr.error('Ocurrió un error al eliminar');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
