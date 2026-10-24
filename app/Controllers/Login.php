@@ -54,13 +54,13 @@ class Login extends BaseController
         } 
         
         if(session()->get('is_empleado')){
-            return redirect()->to(base_url('comisiones'));
+            return redirect()->to(module_url('comisiones'));
         }
 
         $modules = session()->get('modules') ?: [];
 
         if (in_array('mpdigital', $modules)) {
-            return redirect()->to(base_url('mpdigital/inicio'));
+            return redirect()->to(module_url('mpdigital/inicio'));
         }
 
         $first = !empty($modules) ? $modules[0] : null;
@@ -68,7 +68,7 @@ class Login extends BaseController
             ? $this->moduleRedirects[$first]
             : 'usuarios';
         
-        return redirect()->to(base_url($redirect));
+        return redirect()->to(module_url($redirect));
         
     }
 
@@ -101,6 +101,9 @@ class Login extends BaseController
                 
                 if(isset($check_user->Id) && (password_verify(hash('sha512', $password), $check_user->password))){
 
+                    // Prevent session fixation
+                    session()->regenerate(true);
+                    
                     $special_permissions = $this->loginModel->obtener_permisos_especiales($check_user->Id);
                     $modules_raw  = $this->loginModel->obtener_modulos($check_user->Id);
                     $module_names = array_column((array)$modules_raw, 'name');
@@ -118,6 +121,7 @@ class Login extends BaseController
                             'special_permissions'=> $special_permissions
                             );
                     session()->set($data);
+                    service('ssoauth')->issue((int) $check_user->Id);
                     return $this->index();
                 }else{
                     session()->setFlashdata('error', 'Usuario y/o contraseña incorrectos');
@@ -142,6 +146,7 @@ class Login extends BaseController
     }
     
     public function logout(){
+        service('ssoauth')->revokeCurrent();
         session()->destroy();
         $data = array(
                 'is_logued_in'  =>         FALSE,

@@ -29,11 +29,11 @@ class PermissionFilter implements FilterInterface
         }
 
         if(session()->get('changedpassword')=='0' && $request->getUri()->getSegment(1)!='changepassword'){
-            return redirect()->to(base_url('changepassword'));
+            return redirect()->to(module_url('changepassword'));
         }
 
         if(session()->get('username')=='' && $request->getUri()->getSegment(2)!='registrarcorreo'){
-            return redirect()->to(base_url('usuarios/registrarcorreo'));
+            return redirect()->to(module_url('usuarios/registrarcorreo'));
         }
 
         //Prevenir url sin controlador
@@ -42,7 +42,7 @@ class PermissionFilter implements FilterInterface
                 return redirect()->to(base_url(service('routes')->getDefaultController()));
             }
 
-            return redirect()->to(base_url($permissions[0]));
+            return redirect()->to(module_url($permissions[0]));
         }
 
         //Url a buscar en los permisos

@@ -35,6 +35,7 @@ class Filters extends BaseFilters
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
         'permission' => \App\Filters\PermissionFilter::class,
+        'ssoauth'    => \App\Filters\SsoAuthFilter::class,
     ];
 
     /**
@@ -73,6 +74,7 @@ class Filters extends BaseFilters
      */
     public array $globals = [
         'before' => [
+            'ssoauth',
             'permission' => ['except' => ['login', 'login/*', 'noaccess', 'changepassword', 'changepassword/*']],
             // 'honeypot',
             // 'csrf',
