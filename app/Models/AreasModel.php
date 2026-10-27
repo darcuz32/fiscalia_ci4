@@ -13,7 +13,7 @@ class AreasModel
         $this->db = Database::connect();
     }
 
-     function obtenerTodos() {
+    function obtenerTodos() {
         return $this->db->table('areas')
             ->where('activo', 1)
             ->orderBy('nombre', 'ASC')
@@ -22,7 +22,7 @@ class AreasModel
     }
 
     function obtenerPorId($id) {
-        return $this->db->table('users')
+        return $this->db->table('areas')
             ->where('id', $id)
             ->get()
             ->getRow();   

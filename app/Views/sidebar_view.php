@@ -95,13 +95,6 @@
                     </a>
                 </li>
                 <?php } ?>
-                <?php if(in_array('comisiones', $modules) || in_array('comisiones_reporte', $modules)){ ?>
-                <li class="nav-item">
-                    <a class="nav-link menu-link<?= $is_active('comisiones/reporte') ? ' active' : '' ?>" href="<?= module_url('comisiones/reporte') ?>">
-                        <i class="mdi mdi-chart-line"></i> <span data-key="t-widgets">Reporte de comisiones</span>
-                    </a>
-                </li>
-                <?php } ?>
 
                 <?php if(in_array('constancias', $modules)){ ?>
                 <li class="nav-item">
@@ -111,42 +104,10 @@
                 </li>
                 <?php } ?>
 
-                <?php if(in_array('comisiones', $modules) || $is_empleado){ ?>
-                <li class="nav-item">
-                    <a class="nav-link menu-link<?= $is_active('comisiones') && !$is_active('comisiones/reporte') && !$is_active('comisiones/solicitudes') ? ' active' : '' ?>" href="<?= module_url('comisiones') ?>">
-                        <i class="mdi mdi-account-cash"></i> <span data-key="t-widgets">Comisiones</span>
-                    </a>
-                </li>
-                <?php } ?>
-
-                <?php if(in_array('comisiones', $modules) || in_array('comisiones_solicitudes', $modules) || $is_empleado){ ?>
-                <li class="nav-item">
-                    <a class="nav-link menu-link<?= $is_active('comisiones/solicitudes') ? ' active' : '' ?>" href="<?= module_url('comisiones/solicitudes') ?>">
-                        <i class="mdi mdi-briefcase"></i> <span data-key="t-widgets">Solicitudes de comisión</span>
-                    </a>
-                </li>
-                <?php } ?>
-
                 <?php if(in_array('citas', $modules)){ ?>
                 <li class="nav-item">
                     <a class="nav-link menu-link<?= $is_active('administracionCitas') ? ' active' : '' ?>" href="<?= module_url('administracionCitas') ?>">
                         <i class="mdi mdi-calendar"></i> <span data-key="t-widgets">Citas</span>
-                    </a>
-                </li>
-                <?php } ?>
-
-                <?php if(in_array('instituto', $modules) || in_array('instituto_personal', $modules) || in_array('instituto_seguimiento', $modules)){ ?>
-                <li class="nav-item">
-                    <a class="nav-link menu-link<?= $is_active('instituto') ? ' active' : '' ?>" href="<?= module_url('instituto') ?>">
-                        <i class="mdi mdi-domain"></i> <span data-key="t-widgets">Instituto</span>
-                    </a>
-                </li>
-                <?php } ?>
-
-                <?php if(in_array('mandamientos', $modules)){ ?>
-                <li class="nav-item">
-                    <a class="nav-link menu-link<?= $is_active('mandamientosjudiciales') ? ' active' : '' ?>" href="<?= module_url('mandamientosjudiciales') ?>">
-                        <i class="mdi mdi-gavel"></i> <span data-key="t-widgets">Mandamientos Judiciales</span>
                     </a>
                 </li>
                 <?php } ?>
@@ -346,14 +307,6 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link<?= $is_active('constancias_titulares') ? ' active' : '' ?>" href="<?= module_url('constancias_titulares') ?>">
                         <i class="mdi mdi-account"></i> <span data-key="t-widgets">Titulares de constancias</span>
-                    </a>
-                </li>
-                <?php } ?>
-
-                <?php if(in_array('colaboracionforanea', $modules)){ ?>
-                <li class="nav-item">
-                    <a class="nav-link menu-link<?= $is_active('colaboracionforanea') ? ' active' : '' ?>" href="<?= module_url('colaboracionforanea') ?>">
-                        <i class="mdi mdi-handshake"></i> <span data-key="t-widgets">Colaboración Foránea</span>
                     </a>
                 </li>
                 <?php } ?>

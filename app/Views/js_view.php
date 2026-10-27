@@ -29,7 +29,7 @@
         window.mpdigitalAjaxErrorMessage = function (xhr, fallback) {
             var body = xhr && xhr.responseJSON;
             if (!body && xhr && xhr.responseText) {
-                try { body = JSON.parse(xhr.responseText); } catch (_) {}
+                try { body = (xhr.responseText); } catch (_) {}
             }
             return (body && (body.message || body.error)) || fallback;
         };

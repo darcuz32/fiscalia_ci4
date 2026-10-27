@@ -1585,7 +1585,7 @@ $(document).ready(function () {
             data: { data: JSON.stringify(data) },
             success: function (response) {
                 try {
-                    const obj = JSON.parse(response);
+                    const obj = (response);
                     if (obj.success === false) {
                         toastr.error(obj.message);
                         $("#overlay").fadeOut(300);
@@ -1755,7 +1755,7 @@ $(document).ready(function () {
                     data: { folio: $('#folio').val(), email: $('#email').val() },
                     success: function (response) {
                         try {
-                            const obj = JSON.parse(response);
+                            const obj = (response);
                             if (obj.success === false) {
                                 toastr.error(obj.message);
                                 $('#btnRevisarFolio').prop('disabled', false).html('Continuar');
@@ -2080,7 +2080,7 @@ $(document).ready(function () {
             data: { data: JSON.stringify(data) },
             success: function (response) {
                 try {
-                    const obj = JSON.parse(response);
+                    const obj = (response);
                     if (obj.success === false) {
                         toastr.error(obj.message);
                         $('button[type="submit"]').prop('disabled', false).html('Enviar');
@@ -2233,7 +2233,7 @@ function createStripeCheckoutSession(folioId, folio, paymentMethod, mode) {
             console.error('Error creating Stripe session:', error);
             let errorMessage = 'Error al procesar el pago';
             try {
-                const errorResponse = JSON.parse(xhr.responseText);
+                const errorResponse = (xhr.responseText);
                 errorMessage = errorResponse.error || errorMessage;
             } catch (e) {}
             
