@@ -18,4 +18,10 @@ class UnidadesInvestigacion extends MyController
         $arr = is_array($raw) ? $raw : array_filter(explode(',', (string)$raw), 'strlen');
         return $this->response->setJSON($this->unidadesInvestigacionModel->get_activos_by_regiones($arr));
     }
+
+    
+    public function getUnidadesInvestigacion(){
+		$data = $this->unidadesInvestigacionModel->get_all_activos();
+		return $this->response->setJSON($data);
+	}
 }

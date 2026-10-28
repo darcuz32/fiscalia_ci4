@@ -47,6 +47,19 @@ $routes->group('usuarios', static function ($routes) {
 
 $routes->group('UnidadesInvestigacion', static function ($routes) {
     $routes->get('get_activos_by_regiones', 'UnidadesInvestigacion::get_activos_by_regiones');
+    $routes->get('getUnidadesInvestigacion', 'UnidadesInvestigacion::getUnidadesInvestigacion');
+});
+
+$routes->group('InformeEjecutivo', static function ($routes) {
+    $routes->get('/', 'InformeEjecutivo::index');
+    $routes->get('getDenunciasPorInstrumento', 'InformeEjecutivo::getDenunciasPorInstrumento');
+    $routes->get('getDetenidosPorRangoEdad', 'InformeEjecutivo::getDetenidosPorRangoEdad');
+    $routes->get('getDetenidosPorDelito', 'InformeEjecutivo::getDetenidosPorDelito');
+});
+
+$routes->group('estadisticas', static function ($routes) {
+    $routes->get('getMunicipios', 'Estadisticas::getMunicipios');
+    $routes->get('getOficinasGestiones', 'Estadisticas::getOficinasGestiones');
 });
 
 $routes->get('noaccess', 'Noaccess::index');
