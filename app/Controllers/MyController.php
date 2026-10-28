@@ -23,9 +23,10 @@ class MyController extends BaseController
     ) {
         parent::initController($request, $response, $logger);
         
-        $url = strtolower((string) $request->getUri()->getSegment(1));
-        if ($request->getUri()->getSegment(2) !== '') {
-            $url .= '/' . $request->getUri()->getSegment(2);
+        $uri = $request->getUri();
+        $url = strtolower((string) $uri->getSegment(1));
+        if ($uri->getTotalSegments() > 1) {
+            $url .= '/' . $uri->getSegment(2);
         }
 
         // Cargar los menús

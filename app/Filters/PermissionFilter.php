@@ -21,11 +21,14 @@ class PermissionFilter implements FilterInterface
             return redirect()->to(base_url('login'));
         }
 
+        $uri      = $request->getUri();
+        $segment  = strtolower((string) $uri->getSegment(1));
+        $segment2 = $uri->getTotalSegments() > 1 ? (string) $uri->getSegment(2) : '';
+
         // TODO: Permiso temporal hardcodeado para Informe Ejecutivo.
         // Permite que cualquier usuario autenticado acceda a la ruta raíz y a
         // /InformeEjecutivo sin validar el permiso asignado en la base de datos.
         // Eliminar este bloque completo cuando se configure el permiso real.
-        $segment = strtolower((string) $request->getUri()->getSegment(1));
         if ($segment === '' || $segment === 'informeejecutivo') {
             return null;
         }
@@ -37,16 +40,16 @@ class PermissionFilter implements FilterInterface
             return redirect()->to(base_url('noaccess'));
         }
 
-        if(session()->get('changedpassword')=='0' && $request->getUri()->getSegment(1)!='changepassword'){
+        if(session()->get('changedpassword')=='0' && $segment != 'changepassword'){
             return redirect()->to(module_url('changepassword'));
         }
 
-        if(session()->get('username')=='' && $request->getUri()->getSegment(2)!='registrarcorreo'){
+        if(session()->get('username')=='' && $segment2 != 'registrarcorreo'){
             return redirect()->to(module_url('usuarios/registrarcorreo'));
         }
 
         //Prevenir url sin controlador
-        if ($request->getUri()->getSegment(1) == '') {
+        if ($segment === '') {
             if (substr($permissions[0], -1) == '*') {
                 return redirect()->to(base_url(service('routes')->getDefaultController()));
             }
@@ -55,16 +58,16 @@ class PermissionFilter implements FilterInterface
         }
 
         //Url a buscar en los permisos
-        $url = strtolower($request->getUri()->getSegment(1));
+        $url = $segment;
 
         //Si quisieramos validar el acceso a cada función de los controladores
-        if ($request->getUri()->getSegment(2) != '') {
-            $url .= '/' . $request->getUri()->getSegment(2);
+        if ($segment2 != '') {
+            $url .= '/' . $segment2;
         }
 
-        $is_registrarcorreo = ($request->getUri()->getSegment(1) == 'usuarios' && $request->getUri()->getSegment(2) == 'registrarcorreo');
+        $is_registrarcorreo = ($segment === 'usuarios' && $segment2 === 'registrarcorreo');
         // Always allow micuenta/firma (self-service signature page)
-        $is_micuenta_firma = ($request->getUri()->getSegment(1) == 'micuenta' && $request->getUri()->getSegment(2) == 'firma');
+        $is_micuenta_firma = ($segment === 'micuenta' && $segment2 === 'firma');
         $permitted = in_array($url, $permissions);
         if (!$permitted) {
             foreach ($permissions as $perm) {
