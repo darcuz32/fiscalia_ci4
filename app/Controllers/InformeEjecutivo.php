@@ -39,6 +39,41 @@ class InformeEjecutivo extends MyController
         );
     }
 
+    public function getCateosPorCorporacion()
+    {
+        return $this->response->setJSON(
+            $this->informeEjecutivoModel->getCateosPorCorporacion($this->getFiltrosComunes())
+        );
+    }
+
+    public function getCateosPorRegion()
+    {
+        return $this->response->setJSON(
+            $this->informeEjecutivoModel->getCateosPorRegion($this->getFiltrosComunes())
+        );
+    }
+
+    public function getExpedientesPorUnidad()
+    {
+        return $this->response->setJSON(
+            $this->informeEjecutivoModel->getExpedientesPorUnidad($this->getFiltrosComunes())
+        );
+    }
+
+    public function getMedidasProteccionPorDelito()
+    {
+        return $this->response->setJSON(
+            $this->informeEjecutivoModel->getMedidasProteccionPorDelito($this->getFiltrosComunes())
+        );
+    }
+
+    public function getUsuariosMpDigital()
+    {
+        return $this->response->setJSON(
+            $this->informeEjecutivoModel->getUsuariosMpDigital()
+        );
+    }
+
     private function getFiltrosComunes(): array
     {
         return [
@@ -47,6 +82,8 @@ class InformeEjecutivo extends MyController
             'region'      => trim((string) $this->request->getGet('region')),
             'municipio'   => trim((string) $this->request->getGet('municipio')),
             'unidad'      => trim((string) $this->request->getGet('unidad')),
+            'estado'      => trim((string) $this->request->getGet('estado')),
+            'usuario'     => trim((string) $this->request->getGet('usuario')),
         ];
     }
 }

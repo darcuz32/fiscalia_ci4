@@ -4,6 +4,8 @@ use CodeIgniter\Router\RouteCollection;
 
 /** @var RouteCollection $routes */
 
+$routes->get('/', 'InformeEjecutivo::index');
+
 $routes->group('areas', static function ($routes) {
     $routes->get('/', 'Areas::index');
     $routes->get('loaddata', 'Areas::loaddata');
@@ -55,6 +57,11 @@ $routes->group('InformeEjecutivo', static function ($routes) {
     $routes->get('getDenunciasPorInstrumento', 'InformeEjecutivo::getDenunciasPorInstrumento');
     $routes->get('getDetenidosPorRangoEdad', 'InformeEjecutivo::getDetenidosPorRangoEdad');
     $routes->get('getDetenidosPorDelito', 'InformeEjecutivo::getDetenidosPorDelito');
+    $routes->get('getCateosPorCorporacion', 'InformeEjecutivo::getCateosPorCorporacion');
+    $routes->get('getCateosPorRegion', 'InformeEjecutivo::getCateosPorRegion');
+    $routes->get('getExpedientesPorUnidad', 'InformeEjecutivo::getExpedientesPorUnidad');
+    $routes->get('getMedidasProteccionPorDelito', 'InformeEjecutivo::getMedidasProteccionPorDelito');
+    $routes->get('getUsuariosMpDigital', 'InformeEjecutivo::getUsuariosMpDigital');
 });
 
 $routes->group('estadisticas', static function ($routes) {

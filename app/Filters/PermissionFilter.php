@@ -21,6 +21,15 @@ class PermissionFilter implements FilterInterface
             return redirect()->to(base_url('login'));
         }
 
+        // TODO: Permiso temporal hardcodeado para Informe Ejecutivo.
+        // Permite que cualquier usuario autenticado acceda a la ruta raíz y a
+        // /InformeEjecutivo sin validar el permiso asignado en la base de datos.
+        // Eliminar este bloque completo cuando se configure el permiso real.
+        $segment = strtolower((string) $request->getUri()->getSegment(1));
+        if ($segment === '' || $segment === 'informeejecutivo') {
+            return null;
+        }
+
         $permissionService = new Permission();
         $permissions = $permissionService->get_user_permissions($userid);
 
