@@ -61,6 +61,8 @@ $routes->group('InformeEjecutivo', static function ($routes) {
     $routes->get('getCateosPorRegion', 'InformeEjecutivo::getCateosPorRegion');
     $routes->get('getExpedientesPorUnidad', 'InformeEjecutivo::getExpedientesPorUnidad');
     $routes->get('getMedidasProteccionPorDelito', 'InformeEjecutivo::getMedidasProteccionPorDelito');
+    $routes->get('getBienesAseguradosPorTipoObjeto', 'InformeEjecutivo::getBienesAseguradosPorTipoObjeto');
+    $routes->get('getDrogaAseguradaPorUnidad', 'InformeEjecutivo::getDrogaAseguradaPorUnidad');
     $routes->get('getUsuariosMpDigital', 'InformeEjecutivo::getUsuariosMpDigital');
 });
 

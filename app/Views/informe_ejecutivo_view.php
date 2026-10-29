@@ -118,17 +118,38 @@
             box-shadow: 0 0 0 .2rem rgba(13, 110, 253, .15);
         }
         
-        .topic-card .topic-total {
-            font-size: 1.5rem;
-            line-height: 1.1;
+        #topic-cards {
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            overflow-y: hidden;
+            margin-left: 0;
+            margin-right: 0;
+            padding-bottom: .5rem;
+            scrollbar-width: thin;
+            -webkit-overflow-scrolling: touch;
         }
-        
-        .topic-card .topic-chevron {
-            transition: transform .15s ease-in-out;
+
+        .topic-card .card-body {
+            width: auto;
+            min-height: 0;
+            padding: .6rem .75rem;
+            gap: .35rem !important;
+            flex: 0 0 auto;
+            margin: auto;
         }
-        
-        .topic-card.active .topic-chevron {
-            transform: rotate(180deg);
+
+        .topic-card .avatar-sm {
+            width: 2rem;
+            height: 2rem;
+        }
+
+        .topic-card .avatar-title {
+            font-size: 1.1rem !important;
+        }
+
+        .topic-card .card-body p {
+            line-height: 1.15;
+            white-space: nowrap;
         }
         
         /* Responsive improvements */
@@ -184,8 +205,22 @@
             height: 380px;
         }
 
+        #bienes-chart-container {
+            width: 100%;
+            height: 380px;
+        }
+
+        #droga-chart-container {
+            width: 100%;
+            height: 380px;
+        }
+
         #dashboard-data {
             position: relative;
+        }
+
+        .chart-topic {
+            display: none;
         }
 
         .dashboard-loader {
@@ -222,12 +257,15 @@
             #medidas-chart-container {
                 height: 320px;
             }
+            #bienes-chart-container {
+                height: 320px;
+            }
+            #droga-chart-container {
+                height: 320px;
+            }
             .form-control-sm,
             .form-select-sm {
                 min-height: 38px;
-            }
-            .topic-card .topic-total {
-                font-size: 1.35rem;
             }
         }
         
@@ -248,9 +286,10 @@
         #filters-row .chosen-container-single .chosen-single span {
             line-height: 22px;
             margin-right: 20px;
+            margin-top: 0px;
         }
         #filters-row .chosen-container-single .chosen-single div {
-            top: 8px;
+            top: 4px;
         }
         #filters-row .chosen-container-single .chosen-search input[type="text"] {
             font-size: .8125rem;
@@ -260,6 +299,108 @@
         }
         #filters-row .chosen-container-single .chosen-drop {
             z-index: 1055;
+        }
+
+        /* Select Chosen */
+        .chosen-container-single .chosen-single,
+        .chosen-container-single .chosen-single:hover,
+        .chosen-container-active .chosen-single,
+        .chosen-container-active.chosen-with-drop .chosen-single {
+            height: 38px;
+            line-height: 36px;
+            padding: 0 14px;
+
+            background: #fff !important;
+            border: 2px solid #0B2341 !important;
+            border-radius: 50rem !important;
+
+            box-shadow: none;
+            color: #0B2341 !important;
+            font-size: 1rem;
+        }
+
+        /* Texto */
+        .chosen-container-single .chosen-single span {
+            color: #0B2341 !important;
+        }
+
+        /* Flecha: cambiar el color del indicador de Chosen */
+        .chosen-container-single .chosen-single div b {
+            background: none !important;
+            position: relative;
+        }
+
+        .chosen-container-single .chosen-single div b::before {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            width: 8px;
+            height: 8px;
+            border-right: 2px solid #0B2341;
+            border-bottom: 2px solid #0B2341;
+            transform: translateX(-50%) rotate(45deg);
+        }
+
+        /* Menú desplegable */
+        .chosen-container .chosen-drop {
+            background: #fff !important;
+            border: 2px solid #0B2341 !important;
+            border-radius: 0.75rem !important;
+            overflow: hidden;
+            box-shadow: 0 0.25rem 0.5rem rgba(11, 35, 65, 0.12);
+        }
+
+        /* Opciones */
+        .chosen-container .chosen-results li {
+            color: #0B2341;
+        }
+
+        .chosen-container .chosen-results li.highlighted {
+            background: #0B2341 !important;
+            color: #fff !important;
+        }
+
+        .chosen-container .chosen-results li.result-selected {
+            color: #0B2341;
+            font-weight: 600;
+        }
+
+        /* Inputs tipo date */
+        input[type="date"] {
+            height: 38px;
+            padding: 0 14px;
+
+            background-color: #fff;
+            border: 2px solid #0B2341;
+            border-radius: 50rem;
+
+            box-shadow: none;
+            color: #0B2341;
+            font-size: 1rem;
+        }
+
+        /* Hover */
+        input[type="date"]:hover {
+            background-color: #f5f7fa;
+            border-color: #0B2341;
+        }
+
+        /* Focus */
+        input[type="date"]:focus {
+            background-color: #fff;
+            border-color: #0B2341;
+            box-shadow: 0 0 0 2px rgba(11, 35, 65, 0.15);
+            outline: none;
+        }
+
+        /* Icono del calendario en navegadores compatibles */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            cursor: pointer;
+            opacity: 1;
+            filter: brightness(0) saturate(100%)
+                    invert(10%) sepia(25%) saturate(2500%)
+                    hue-rotate(180deg) brightness(85%) contrast(105%);
         }
     </style>
 </head>
@@ -281,17 +422,131 @@
                                 </div>
 
                                 <div class="card-header bg-light border-bottom">
+                                    
+                                    <div class="row g-3 mb-2" id="topic-cards">
+                                        <div class="col-auto">
+                                            <div class="card topic-card border h-100" data-topic="denuncias"
+                                                role="button" tabindex="0" aria-pressed="false"
+                                                aria-label="Mostrar u ocultar las gráficas de denuncias">
+                                                <div class="card-body d-flex flex-column align-items-center justify-content-center text-center gap-2">
+                                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class="avatar-title bg-primary-subtle text-primary rounded fs-4">
+                                                            <i class="ri-file-list-3-line"></i>
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-muted mb-0 small">Denuncias</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="card topic-card border h-100" data-topic="detenidos"
+                                                role="button" tabindex="0" aria-pressed="false"
+                                                aria-label="Mostrar u ocultar las gráficas de detenidos">
+                                                <div class="card-body d-flex flex-column align-items-center justify-content-center text-center gap-2">
+                                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class="avatar-title bg-info-subtle text-info rounded fs-4">
+                                                            <i class="ri-group-line"></i>
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-muted mb-0 small">Detenidos</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="card topic-card border h-100" data-topic="cateos"
+                                                role="button" tabindex="0" aria-pressed="false"
+                                                aria-label="Mostrar u ocultar las gráficas de cateos">
+                                                <div class="card-body d-flex flex-column align-items-center justify-content-center text-center gap-2">
+                                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class="avatar-title bg-warning-subtle text-warning rounded fs-4">
+                                                            <i class="ri-home-gear-line"></i>
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-muted mb-0 small">Cateos</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="card topic-card border h-100" data-topic="expedientes"
+                                                role="button" tabindex="0" aria-pressed="false"
+                                                aria-label="Mostrar u ocultar las gráficas de expedientes">
+                                                <div class="card-body d-flex flex-column align-items-center justify-content-center text-center gap-2">
+                                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class="avatar-title bg-success-subtle text-success rounded fs-4">
+                                                            <i class="ri-folder-3-line"></i>
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-muted mb-0 small">Expedientes</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="card topic-card border h-100" data-topic="medidas"
+                                                role="button" tabindex="0" aria-pressed="false"
+                                                aria-label="Mostrar u ocultar las gráficas de medidas de protección">
+                                                <div class="card-body d-flex flex-column align-items-center justify-content-center text-center gap-2">
+                                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class="avatar-title bg-danger-subtle text-danger rounded fs-4">
+                                                            <i class="ri-shield-check-line"></i>
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-muted mb-0 small">Medidas <br/>de Protección</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="card topic-card border h-100" data-topic="bienes"
+                                                role="button" tabindex="0" aria-pressed="false"
+                                                aria-label="Mostrar u ocultar la gráfica de bienes asegurados">
+                                                <div class="card-body d-flex flex-column align-items-center justify-content-center text-center gap-2">
+                                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class="avatar-title bg-secondary-subtle text-secondary rounded fs-4">
+                                                            <i class="ri-archive-2-line"></i>
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-muted mb-0 small">Bienes <br/>Asegurados</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="card topic-card border h-100" data-topic="droga"
+                                                role="button" tabindex="0" aria-pressed="false"
+                                                aria-label="Mostrar u ocultar la gráfica de droga asegurada">
+                                                <div class="card-body d-flex flex-column align-items-center justify-content-center text-center gap-2">
+                                                    <div class="avatar-sm flex-shrink-0">
+                                                        <span class="avatar-title bg-dark-subtle text-dark rounded fs-4">
+                                                            <i class="ri-flask-line"></i>
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-muted mb-0 small">Droga <br/>asegurada (peso)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="row g-3" id="filters-row">
                                         <div class="col-12 col-sm-6 col-xl">
                                             <div class="form-group mb-0">
-                                                <label for="fecha-inicio" class="form-label small mb-1">Fecha Inicio:</label>
-                                                <input type="date" id="fecha-inicio" class="form-control form-control-sm">
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-6 col-xl">
-                                            <div class="form-group mb-0">
-                                                <label for="fecha-fin" class="form-label small mb-1">Fecha Fin:</label>
-                                                <input type="date" id="fecha-fin" class="form-control form-control-sm">
+                                                <label for="periodo-filter" class="form-label small mb-1">Periodo:</label>
+                                                <select id="periodo-filter" class="form-select form-select-sm">
+                                                    <option value="lastweek">Últimos 7 días</option>
+                                                    <option value="lastmonth">Últimos 30 días</option>
+                                                    <option value="yeartodate">Último año</option>
+                                                    <option value="custom">Personalizado</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-6 col-xl">
@@ -336,6 +591,27 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <div class="col-12 col-sm-6 col-xl mt-auto">
+                                            <div class="form-group mb-0">
+                                               <button class="btn btn-secondary" id="apply-filter">
+                                                    <i class="ri-filter-2-fill"></i> Aplicar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <div class="row g-3" id="filters-date-row">
+                                        <div class="col-12 col-sm-2 col-xl-2">
+                                            <div class="form-group mb-0">
+                                                <label for="fecha-inicio" class="form-label small mb-1">Fecha Inicio:</label>
+                                                <input type="date" id="fecha-inicio" class="form-control form-control-sm">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-2 col-xl-2">
+                                            <div class="form-group mb-0">
+                                                <label for="fecha-fin" class="form-label small mb-1">Fecha Fin:</label>
+                                                <input type="date" id="fecha-fin" class="form-control form-control-sm">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="card-body" id="dashboard-data">
@@ -343,103 +619,6 @@
                                         <div class="d-flex align-items-center gap-2 text-muted">
                                             <span class="spinner-border text-primary" role="status" aria-hidden="true"></span>
                                             <span>Cargando información...</span>
-                                        </div>
-                                    </div>
-                                    <div class="row g-3 mb-2" id="topic-cards">
-                                        <div class="col-12 col-sm-6 col-md-4 col-xl">
-                                            <div class="card topic-card border h-100" data-topic="denuncias"
-                                                role="button" tabindex="0" aria-pressed="false"
-                                                aria-label="Mostrar u ocultar las gráficas de denuncias">
-                                                <div class="card-body d-flex align-items-center gap-3">
-                                                    <div class="avatar-sm flex-shrink-0">
-                                                        <span class="avatar-title bg-primary-subtle text-primary rounded fs-4">
-                                                            <i class="ri-file-list-3-line"></i>
-                                                        </span>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <p class="text-muted mb-1 small">Denuncias</p>
-                                                        <h4 class="mb-0 topic-total" id="total-denuncias">0</h4>
-                                                        <small class="text-muted">registros</small>
-                                                    </div>
-                                                    <i class="ri-arrow-down-s-line text-muted topic-chevron"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-6 col-md-4 col-xl">
-                                            <div class="card topic-card border h-100" data-topic="detenidos"
-                                                role="button" tabindex="0" aria-pressed="false"
-                                                aria-label="Mostrar u ocultar las gráficas de detenidos">
-                                                <div class="card-body d-flex align-items-center gap-3">
-                                                    <div class="avatar-sm flex-shrink-0">
-                                                        <span class="avatar-title bg-info-subtle text-info rounded fs-4">
-                                                            <i class="ri-group-line"></i>
-                                                        </span>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <p class="text-muted mb-1 small">Detenidos</p>
-                                                        <h4 class="mb-0 topic-total" id="total-detenidos">0</h4>
-                                                        <small class="text-muted">registros</small>
-                                                    </div>
-                                                    <i class="ri-arrow-down-s-line text-muted topic-chevron"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-6 col-md-4 col-xl">
-                                            <div class="card topic-card border h-100" data-topic="cateos"
-                                                role="button" tabindex="0" aria-pressed="false"
-                                                aria-label="Mostrar u ocultar las gráficas de cateos">
-                                                <div class="card-body d-flex align-items-center gap-3">
-                                                    <div class="avatar-sm flex-shrink-0">
-                                                        <span class="avatar-title bg-warning-subtle text-warning rounded fs-4">
-                                                            <i class="ri-home-search-line"></i>
-                                                        </span>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <p class="text-muted mb-1 small">Cateos</p>
-                                                        <h4 class="mb-0 topic-total" id="total-cateos">0</h4>
-                                                        <small class="text-muted">registros</small>
-                                                    </div>
-                                                    <i class="ri-arrow-down-s-line text-muted topic-chevron"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-6 col-md-4 col-xl">
-                                            <div class="card topic-card border h-100" data-topic="expedientes"
-                                                role="button" tabindex="0" aria-pressed="false"
-                                                aria-label="Mostrar u ocultar las gráficas de expedientes">
-                                                <div class="card-body d-flex align-items-center gap-3">
-                                                    <div class="avatar-sm flex-shrink-0">
-                                                        <span class="avatar-title bg-success-subtle text-success rounded fs-4">
-                                                            <i class="ri-folder-3-line"></i>
-                                                        </span>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <p class="text-muted mb-1 small">Expedientes</p>
-                                                        <h4 class="mb-0 topic-total" id="total-expedientes">0</h4>
-                                                        <small class="text-muted">registros</small>
-                                                    </div>
-                                                    <i class="ri-arrow-down-s-line text-muted topic-chevron"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-6 col-md-4 col-xl">
-                                            <div class="card topic-card border h-100" data-topic="medidas"
-                                                role="button" tabindex="0" aria-pressed="false"
-                                                aria-label="Mostrar u ocultar las gráficas de medidas de protección">
-                                                <div class="card-body d-flex align-items-center gap-3">
-                                                    <div class="avatar-sm flex-shrink-0">
-                                                        <span class="avatar-title bg-danger-subtle text-danger rounded fs-4">
-                                                            <i class="ri-shield-check-line"></i>
-                                                        </span>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <p class="text-muted mb-1 small">Medidas de Protección</p>
-                                                        <h4 class="mb-0 topic-total" id="total-medidas">0</h4>
-                                                        <small class="text-muted">registros</small>
-                                                    </div>
-                                                    <i class="ri-arrow-down-s-line text-muted topic-chevron"></i>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
 
@@ -568,6 +747,54 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="chart-topic" data-topic="bienes">
+                                        <div class="row mb-4">
+                                            <div class="col-12">
+                                                <div class="card border">
+                                                    <div class="card-header bg-light">
+                                                        <h6 class="card-title mb-0">Bienes Asegurados por Tipo de Objeto</h6>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-12 col-lg-8">
+                                                                <figure class="highcharts-figure mb-0">
+                                                                    <div id="bienes-chart-container"></div>
+                                                                </figure>
+                                                            </div>
+                                                            <div class="col-12 col-lg-4">
+                                                                <div id="bienes-table-container" class="mt-3 mt-lg-0 table-responsive"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="chart-topic" data-topic="droga">
+                                        <div class="row mb-4">
+                                            <div class="col-12">
+                                                <div class="card border">
+                                                    <div class="card-header bg-light">
+                                                        <h6 class="card-title mb-0">Droga Asegurada por Unidad de Investigación</h6>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-12 col-lg-8">
+                                                                <figure class="highcharts-figure mb-0">
+                                                                    <div id="droga-chart-container"></div>
+                                                                </figure>
+                                                            </div>
+                                                            <div class="col-12 col-lg-4">
+                                                                <div id="droga-table-container" class="mt-3 mt-lg-0 table-responsive"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -614,6 +841,11 @@
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
     <script type="text/javascript">
+        
+        let topicCharts = [];
+        let topicFilters = [];
+        let currentTopic = null;
+        let currentParams = [];
         $(document).ready(function () {
             initFilterChosen();
             loadDenunciasRegiones();
@@ -621,15 +853,97 @@
             loadDenunciasUnidades();
             loadUsuariosMpDigital();
 
-            $('#fecha-inicio, #fecha-fin, #region-filter, #municipio-filter, #unidades-investigacion-filter, #estado-filter, #usuario-filter').on('change', function () {
-                loadDenunciasChart();
-                loadDetenidosChart();
-                loadDetenidosDelitosChart();
-                loadCateosCorporacionesChart();
-                loadCateosRegionesChart();
-                loadExpedientesChart();
-                loadMedidasChart();
+
+            topicCharts["denuncias"] = [
+                () => loadDenunciasChart()
+            ];
+
+            topicCharts["detenidos"] = [
+                () => loadDetenidosChart(),
+                () => loadDetenidosDelitosChart()
+            ];
+
+            topicCharts["cateos"] = [
+                () => loadCateosCorporacionesChart(),
+                () => loadCateosRegionesChart()
+            ];
+
+            topicCharts["expedientes"] = [
+                () => loadExpedientesChart()
+            ];
+
+            topicCharts["medidas"] = [
+                () => loadMedidasChart()
+            ];
+
+            topicCharts["bienes"] = [
+                () => loadBienesAseguradosChart()
+            ];
+
+            topicCharts["droga"] = [
+                () => loadDrogaChart()
+            ];
+
+            $('#periodo-filter').on('change', function () {
+                const valor = $(this).val();
+
+                $('#filters-date-row').css("display", valor == "custom" ? "" : "none");
+
+                const hoy = new Date();
+                const fechaFin = hoy.toISOString().split('T')[0];
+
+                let fechaInicio = null;
+
+                if (valor === "lastweek") {
+                    const inicio = new Date(hoy);
+                    inicio.setDate(hoy.getDate() - 7);
+                    fechaInicio = inicio.toISOString().split('T')[0];
+
+                } else if (valor === "lastmonth") {
+                    const inicio = new Date(hoy);
+                    inicio.setDate(hoy.getDate() - 30);
+                    fechaInicio = inicio.toISOString().split('T')[0];
+
+                } else if (valor === "yeartodate") {
+                    fechaInicio = `${hoy.getFullYear()}-01-01`;
+                }
+
+                if (fechaInicio !== null) {
+                    $('#fecha-inicio').val(fechaInicio);
+                    $('#fecha-fin').val(fechaFin);
+                }
             });
+
+            $('#periodo-filter').trigger("change");
+
+            $('#apply-filter').click(function (e) { 
+                currentParams = [];
+
+                const inicio    = $('#fecha-inicio').val();
+                const fin       = $('#fecha-fin').val();
+                const region    = $('#region-filter').val();
+                const municipio = $('#municipio-filter').val();
+                const unidad    = $('#unidades-investigacion-filter').val();
+                const estado    = $('#estado-filter').val();
+                const usuario   = $('#usuario-filter').val();
+
+                if (inicio)    currentParams.push('fechaInicio=' + encodeURIComponent(inicio));
+                if (fin)       currentParams.push('fechaFin=' + encodeURIComponent(fin));
+                if (region)    currentParams.push('region=' + encodeURIComponent(region));
+                if (municipio) currentParams.push('municipio=' + encodeURIComponent(municipio));
+                if (unidad)    currentParams.push('unidad=' + encodeURIComponent(unidad));
+                if (estado)    currentParams.push('estado=' + encodeURIComponent(estado));
+                if (usuario)   currentParams.push('usuario=' + encodeURIComponent(usuario));
+
+                if(currentTopic != null){
+                    applyTopicFilter();
+                }
+
+                
+            });
+
+
+            $('#apply-filter').trigger("click");
 
             $('#topic-cards').on('click', '.topic-card', function () {
                 const card = $(this);
@@ -640,7 +954,8 @@
                 if (!wasActive) {
                     card.addClass('active').attr('aria-pressed', 'true');
                 }
-
+                
+                
                 applyTopicFilter();
             });
 
@@ -651,32 +966,42 @@
                 }
             });
 
-            loadDenunciasChart();
-            loadDetenidosChart();
-            loadDetenidosDelitosChart();
-            loadCateosCorporacionesChart();
-            loadCateosRegionesChart();
-            loadExpedientesChart();
-            loadMedidasChart();
+            applyTopicFilter();
         });
 
         function applyTopicFilter() {
             const activeTopic = $('#topic-cards .topic-card.active').first().data('topic');
             const hasSelection = activeTopic !== undefined && activeTopic !== '';
 
+
+            currentTopic = activeTopic;
+            if(topicFilters[currentTopic] == undefined){
+                topicFilters[currentTopic] = [];
+            }
+
+            if(currentParams.length !== topicFilters[currentTopic].length || 
+                !currentParams.every((value, index) => value === topicFilters[currentTopic][index])){
+                topicFilters[currentTopic] = currentParams;
+                topicCharts[currentTopic].forEach(fn => fn());
+
+                // Highcharts necesita recalcular su tamaño al mostrarse de nuevo.
+                window.setTimeout(function () {
+                    if (window.Highcharts && Highcharts.charts) {
+                        Highcharts.charts.forEach(function (chart) {
+                            if (chart) chart.reflow();
+                        });
+                    }
+                }, 50);
+            }
+
+            
+
             $('.chart-topic').each(function () {
                 const topic = String($(this).data('topic'));
-                $(this).toggle(!hasSelection || topic === String(activeTopic));
+                $(this).toggle(hasSelection && topic === String(activeTopic));
             });
-
-            // Highcharts necesita recalcular su tamaño al mostrarse de nuevo.
-            window.setTimeout(function () {
-                if (window.Highcharts && Highcharts.charts) {
-                    Highcharts.charts.forEach(function (chart) {
-                        if (chart) chart.reflow();
-                    });
-                }
-            }, 50);
+            
+            
         }
 
         function setTopicTotal(topic, total) {
@@ -691,7 +1016,7 @@
                 return;
             }
 
-            $('#region-filter, #municipio-filter, #unidades-investigacion-filter, #estado-filter, #usuario-filter').chosen({
+            $('#region-filter, #municipio-filter, #unidades-investigacion-filter, #estado-filter, #usuario-filter, #periodo-filter').chosen({
                 width: '100%',
                 search_contains: true,
                 no_results_text: 'No se encontraron resultados'
@@ -829,30 +1154,9 @@
             });
         }
 
-        function getFiltrosParams() {
-            let params = [];
-            const inicio    = $('#fecha-inicio').val();
-            const fin       = $('#fecha-fin').val();
-            const region    = $('#region-filter').val();
-            const municipio = $('#municipio-filter').val();
-            const unidad    = $('#unidades-investigacion-filter').val();
-            const estado    = $('#estado-filter').val();
-            const usuario   = $('#usuario-filter').val();
-
-            if (inicio)    params.push('fechaInicio=' + encodeURIComponent(inicio));
-            if (fin)       params.push('fechaFin=' + encodeURIComponent(fin));
-            if (region)    params.push('region=' + encodeURIComponent(region));
-            if (municipio) params.push('municipio=' + encodeURIComponent(municipio));
-            if (unidad)    params.push('unidad=' + encodeURIComponent(unidad));
-            if (estado)    params.push('estado=' + encodeURIComponent(estado));
-            if (usuario)   params.push('usuario=' + encodeURIComponent(usuario));
-            return params;
-        }
-
         function loadDenunciasChart() {
             let url = '<?php echo base_url('InformeEjecutivo/getDenunciasPorInstrumento'); ?>';
-            const params = getFiltrosParams();
-            if (params.length > 0) url += '?' + params.join('&');
+            if (currentParams.length > 0) url += '?' + currentParams.join('&');
 
             $('#denuncias-table-container').html('<div class="text-center text-muted small py-3">Cargando...</div>');
             showDashboardLoader();
@@ -875,8 +1179,7 @@
 
         function loadDetenidosChart() {
             let url = '<?php echo base_url('InformeEjecutivo/getDetenidosPorRangoEdad'); ?>';
-            const params = getFiltrosParams();
-            if (params.length > 0) url += '?' + params.join('&');
+            if (currentParams.length > 0) url += '?' + currentParams.join('&');
 
             showDashboardLoader();
 
@@ -897,8 +1200,7 @@
 
         function loadDetenidosDelitosChart() {
             let url = '<?php echo base_url('InformeEjecutivo/getDetenidosPorDelito'); ?>';
-            const params = getFiltrosParams();
-            if (params.length > 0) url += '?' + params.join('&');
+            if (currentParams.length > 0) url += '?' + currentParams.join('&');
 
             showDashboardLoader();
 
@@ -919,8 +1221,7 @@
 
         function loadCateosCorporacionesChart() {
             let url = '<?php echo base_url('InformeEjecutivo/getCateosPorCorporacion'); ?>';
-            const params = getFiltrosParams();
-            if (params.length > 0) url += '?' + params.join('&');
+            if (currentParams.length > 0) url += '?' + currentParams.join('&');
 
             showDashboardLoader();
 
@@ -941,8 +1242,7 @@
 
         function loadCateosRegionesChart() {
             let url = '<?php echo base_url('InformeEjecutivo/getCateosPorRegion'); ?>';
-            const params = getFiltrosParams();
-            if (params.length > 0) url += '?' + params.join('&');
+            if (currentParams.length > 0) url += '?' + currentParams.join('&');
 
             showDashboardLoader();
 
@@ -963,8 +1263,7 @@
 
         function loadExpedientesChart() {
             let url = '<?php echo base_url('InformeEjecutivo/getExpedientesPorUnidad'); ?>';
-            const params = getFiltrosParams();
-            if (params.length > 0) url += '?' + params.join('&');
+            if (currentParams.length > 0) url += '?' + currentParams.join('&');
 
             showDashboardLoader();
 
@@ -985,8 +1284,7 @@
 
         function loadMedidasChart() {
             let url = '<?php echo base_url('InformeEjecutivo/getMedidasProteccionPorDelito'); ?>';
-            const params = getFiltrosParams();
-            if (params.length > 0) url += '?' + params.join('&');
+            if (currentParams.length > 0) url += '?' + currentParams.join('&');
 
             showDashboardLoader();
 
@@ -1000,6 +1298,48 @@
                 },
                 error: function(xhr, status, error) {
                     console.error('Error al cargar medidas de protección por delito:', error);
+                    hideDashboardLoader();
+                }
+            });
+        }
+
+        function loadBienesAseguradosChart() {
+            let url = '<?php echo base_url('InformeEjecutivo/getBienesAseguradosPorTipoObjeto'); ?>';
+            if (currentParams.length > 0) url += '?' + currentParams.join('&');
+
+            showDashboardLoader();
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    createBienesAseguradosChart(response);
+                    hideDashboardLoader();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al cargar bienes asegurados por tipo de objeto:', error);
+                    hideDashboardLoader();
+                }
+            });
+        }
+
+        function loadDrogaChart() {
+            let url = '<?php echo base_url('InformeEjecutivo/getDrogaAseguradaPorUnidad'); ?>';
+            if (currentParams.length > 0) url += '?' + currentParams.join('&');
+
+            showDashboardLoader();
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    createDrogaChart(response);
+                    hideDashboardLoader();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al cargar droga asegurada por unidad:', error);
                     hideDashboardLoader();
                 }
             });
@@ -1657,6 +1997,182 @@
                                     dataLabels: { style: { fontSize: '9px' } }
                                 }
                             }
+                        }
+                    }]
+                }
+            });
+        }
+
+        function createBienesAseguradosChart(bienData) {
+            const typeColors = {
+                'Vehículo': '#3498DB',
+                'Arma': '#E74C3C',
+                'Narcótico': '#9B59B6',
+                'Otro': '#95A5A6'
+            };
+
+            const seriesData = (bienData || []).map(function (item) {
+                return {
+                    name: item.tipo_objeto,
+                    y: parseInt(item.total, 10) || 0,
+                    color: typeColors[item.tipo_objeto] || '#7F8C8D'
+                };
+            });
+
+            const totalBienes = seriesData.reduce((sum, item) => sum + item.y, 0);
+            setTopicTotal('bienes', totalBienes);
+
+            createDenunciasTable('bienes-table-container', seriesData, {
+                categoryLabel: 'Tipo de objeto',
+                countLabel: 'Bienes'
+            });
+
+            Highcharts.chart('bienes-chart-container', {
+                chart: { type: 'bar', backgroundColor: 'transparent' },
+                title: {
+                    text: 'Bienes Asegurados por Tipo de Objeto',
+                    style: { fontSize: '16px', fontWeight: 'bold' }
+                },
+                subtitle: {
+                    text: seriesData.length
+                        ? 'Distribución de los objetos asegurados según su tipo'
+                        : 'Sin información para los filtros seleccionados'
+                },
+                xAxis: {
+                    categories: seriesData.map(function (item) { return item.name; }),
+                    crosshair: true,
+                    labels: { style: { fontSize: '11px' } }
+                },
+                yAxis: {
+                    min: 0,
+                    allowDecimals: false,
+                    title: { text: 'Cantidad de bienes' }
+                },
+                legend: { enabled: false },
+                tooltip: {
+                    headerFormat: '<span style="font-size:14px;font-weight:bold">{point.key}</span><br/>',
+                    pointFormat: 'Bienes: <b>{point.y:,.0f}</b>'
+                },
+                plotOptions: {
+                    bar: {
+                        borderRadius: 5,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y:,.0f}',
+                            style: { fontSize: '11px', fontWeight: 'bold' }
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Bienes asegurados',
+                    colorByPoint: true,
+                    data: seriesData
+                }],
+                credits: { enabled: false },
+                exporting: { enabled: true },
+                noData: { style: { fontWeight: 'normal', fontSize: '13px', color: '#666' } },
+                responsive: {
+                    rules: [{
+                        condition: { maxWidth: 575 },
+                        chartOptions: {
+                            chart: { height: 320 },
+                            title: { style: { fontSize: '14px' } },
+                            subtitle: { style: { fontSize: '10px' } },
+                            xAxis: {
+                                labels: { style: { fontSize: '9px' } }
+                            },
+                            yAxis: {
+                                title: { text: null },
+                                labels: { style: { fontSize: '9px' } }
+                            },
+                            plotOptions: {
+                                bar: {
+                                    dataLabels: { style: { fontSize: '9px' } }
+                                }
+                            }
+                        }
+                    }]
+                }
+            });
+        }
+
+        function createDrogaChart(drogaData) {
+            const palette = ['#9B59B6', '#3498DB', '#1ABC9C', '#F39C12', '#E74C3C',
+                             '#E67E22', '#27AE60', '#34495E', '#95A5A6', '#7F8C8D'];
+
+            const seriesData = (drogaData || []).map(function (item, index) {
+                return {
+                    name: item.unidad,
+                    y: parseFloat(item.total) || 0,
+                    color: palette[index % palette.length]
+                };
+            });
+
+            const totalDroga = seriesData.reduce((sum, item) => sum + item.y, 0);
+            setTopicTotal('droga', totalDroga);
+
+            createDenunciasTable('droga-table-container', seriesData, {
+                categoryLabel: 'Unidad de investigación',
+                countLabel: 'Droga (kg)'
+            });
+
+            Highcharts.chart('droga-chart-container', {
+                chart: { type: 'pie', backgroundColor: 'transparent' },
+                title: {
+                    text: 'Droga Asegurada por Unidad de Investigación',
+                    style: { fontSize: '16px', fontWeight: 'bold' }
+                },
+                subtitle: {
+                    text: seriesData.length
+                        ? 'Peso de narcóticos asegurados (kilogramos)'
+                        : 'Sin información para los filtros seleccionados'
+                },
+                tooltip: {
+                    pointFormat: '<b>{point.y:,.3f} kg</b> ({point.percentage:.1f}%)'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b><br>{point.y:,.3f} kg ({point.percentage:.1f}%)',
+                            style: { fontSize: '11px' }
+                        }
+                    }
+                },
+                legend: {
+                    enabled: true,
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom',
+                    itemStyle: { fontSize: '11px' }
+                },
+                series: [{
+                    name: 'Droga asegurada',
+                    colorByPoint: true,
+                    data: seriesData
+                }],
+                credits: { enabled: false },
+                exporting: { enabled: true },
+                noData: { style: { fontWeight: 'normal', fontSize: '13px', color: '#666' } },
+                responsive: {
+                    rules: [{
+                        condition: { maxWidth: 575 },
+                        chartOptions: {
+                            chart: { height: 320 },
+                            title: { style: { fontSize: '14px' } },
+                            subtitle: { style: { fontSize: '10px' } },
+                            plotOptions: {
+                                pie: {
+                                    dataLabels: {
+                                        distance: 12,
+                                        format: '<b>{point.name}</b>',
+                                        style: { fontSize: '9px' }
+                                    }
+                                }
+                            },
+                            legend: { itemStyle: { fontSize: '10px' } }
                         }
                     }]
                 }

@@ -67,6 +67,20 @@ class InformeEjecutivo extends MyController
         );
     }
 
+    public function getBienesAseguradosPorTipoObjeto()
+    {
+        return $this->response->setJSON(
+            $this->informeEjecutivoModel->getBienesAseguradosPorTipoObjeto($this->getFiltrosComunes())
+        );
+    }
+
+    public function getDrogaAseguradaPorUnidad()
+    {
+        return $this->response->setJSON(
+            $this->informeEjecutivoModel->getDrogaAseguradaPorUnidad($this->getFiltrosComunes())
+        );
+    }
+
     public function getUsuariosMpDigital()
     {
         return $this->response->setJSON(

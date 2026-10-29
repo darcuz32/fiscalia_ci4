@@ -112,7 +112,7 @@ class InformeEjecutivoModel
             $params[] = (int) $filters['region'];
         }
         if (!empty($filters['municipio'])) {
-            $where[]  = 'cm.nom_mun = ?';
+            $where[]  = 'mu.nombre = ?';
             $params[] = $filters['municipio'];
         }
         if (!empty($filters['usuario'])) {
@@ -139,7 +139,7 @@ class InformeEjecutivoModel
                         ELSE NULL
                     END AS edad_calculada
                     FROM detenidos d
-                    LEFT JOIN catalogos.cat_municipios cm ON cm.id = d.id_municipio
+                    LEFT JOIN detenidos_municipios mu ON mu.id = d.id_municipio
                     WHERE " . implode(' AND ', $where) . "
                 ) t
                 GROUP BY rango
@@ -158,7 +158,7 @@ class InformeEjecutivoModel
             ->select("COALESCE(md.nombre, CONCAT('Delito ', dd.id_delito)) AS delito, COUNT(*) AS total", false)
             ->join('detenidos d', 'd.id = dd.id_detenido', 'inner')
             ->join('multa_delitos md', 'md.id = dd.id_delito', 'left')
-            ->join('catalogos.cat_municipios cm', 'cm.id = d.id_municipio', 'left')
+            ->join('detenidos_municipios mu', 'mu.id = d.id_municipio', 'left')
             ->where('d.archivado', 0);
 
         $estado = $filters['estado'] ?? 'todos';
@@ -178,7 +178,7 @@ class InformeEjecutivoModel
             $builder->where('d.id_region', (int) $filters['region']);
         }
         if (!empty($filters['municipio'])) {
-            $builder->where('cm.nom_mun', $filters['municipio']);
+            $builder->where('mu.nombre', $filters['municipio']);
         }
         if (!empty($filters['usuario'])) {
             $builder->where('d.created_by', (int) $filters['usuario']);
@@ -284,6 +284,104 @@ class InformeEjecutivoModel
         }
 
         return $builder->groupBy('delito')
+            ->orderBy('total', 'DESC')
+            ->get()
+            ->getResultArray();
+    }
+
+    /**
+     * Bienes asegurados agrupados por tipo de objeto.
+     *
+     * Se cuentan los objetos activos asociados a cada acta de aseguramiento.
+     * El filtro de unidad de investigación se aplica a través del expediente
+     * vinculado; el de municipio no aplica porque bienes_asegurados no guarda
+     * esa referencia directamente.
+     */
+    public function getBienesAseguradosPorTipoObjeto(array $filters = [])
+    {
+        $builder = $this->mpdb->table('bienes_asegurados b')
+            ->select(
+                "CASE o.tipo_objeto
+                    WHEN 'vehiculo' THEN 'Vehículo'
+                    WHEN 'arma' THEN 'Arma'
+                    WHEN 'narcotico' THEN 'Narcótico'
+                    ELSE 'Otro'
+                END AS tipo_objeto, COUNT(*) AS total",
+                false
+            )
+            ->join('bienes_asegurados_objetos o', 'o.id_bien_asegurado = b.id', 'inner')
+            ->join('expedientes e', 'e.id = b.id_expediente', 'left')
+            ->where('o.activo', 1);
+
+        $estado = $filters['estado'] ?? 'todos';
+        if ($estado === 'activo') {
+            $builder->where('b.activo', 1);
+        } elseif ($estado === 'inactivo') {
+            $builder->where('b.activo', 0);
+        }
+
+        if (!empty($filters['fechaInicio'])) {
+            $builder->where('b.fecha_aseguramiento >=', $filters['fechaInicio'] . ' 00:00:00');
+        }
+        if (!empty($filters['fechaFin'])) {
+            $builder->where('b.fecha_aseguramiento <=', $filters['fechaFin'] . ' 23:59:59');
+        }
+        if (!empty($filters['region'])) {
+            $builder->where('b.id_region', (int) $filters['region']);
+        }
+        if (!empty($filters['unidad'])) {
+            $builder->where('e.id_unidad_investigacion', (int) $filters['unidad']);
+        }
+        if (!empty($filters['usuario'])) {
+            $builder->where('b.created_by', (int) $filters['usuario']);
+        }
+
+        return $builder->groupBy('tipo_objeto')
+            ->orderBy('total', 'DESC')
+            ->get()
+            ->getResultArray();
+    }
+
+    /**
+     * Droga asegurada (peso en kilogramos) agrupada por unidad de investigación.
+     *
+     * Solo considera objetos activos de tipo narcótico con peso capturado.
+     */
+    public function getDrogaAseguradaPorUnidad(array $filters = [])
+    {
+        $builder = $this->mpdb->table('bienes_asegurados b')
+            ->select("COALESCE(u.nombre, 'Sin unidad') AS unidad, SUM(o.narcotico_peso) AS total", false)
+            ->join('bienes_asegurados_objetos o', 'o.id_bien_asegurado = b.id', 'inner')
+            ->join('expedientes e', 'e.id = b.id_expediente', 'left')
+            ->join('denuncias_unidades_investigacion u', 'u.id = e.id_unidad_investigacion', 'left')
+            ->where('o.activo', 1)
+            ->where('o.tipo_objeto', 'narcotico')
+            ->where('o.narcotico_peso IS NOT NULL', null, false);
+
+        $estado = $filters['estado'] ?? 'todos';
+        if ($estado === 'activo') {
+            $builder->where('b.activo', 1);
+        } elseif ($estado === 'inactivo') {
+            $builder->where('b.activo', 0);
+        }
+
+        if (!empty($filters['fechaInicio'])) {
+            $builder->where('b.fecha_aseguramiento >=', $filters['fechaInicio'] . ' 00:00:00');
+        }
+        if (!empty($filters['fechaFin'])) {
+            $builder->where('b.fecha_aseguramiento <=', $filters['fechaFin'] . ' 23:59:59');
+        }
+        if (!empty($filters['region'])) {
+            $builder->where('b.id_region', (int) $filters['region']);
+        }
+        if (!empty($filters['unidad'])) {
+            $builder->where('e.id_unidad_investigacion', (int) $filters['unidad']);
+        }
+        if (!empty($filters['usuario'])) {
+            $builder->where('b.created_by', (int) $filters['usuario']);
+        }
+
+        return $builder->groupBy('e.id_unidad_investigacion, u.nombre')
             ->orderBy('total', 'DESC')
             ->get()
             ->getResultArray();
