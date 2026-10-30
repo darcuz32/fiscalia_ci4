@@ -32,6 +32,22 @@ class InformeEjecutivoModel
     }
 
     /**
+     * Delitos activos del catálogo de MP Digital.
+     */
+    public function getDelitosMpDigital()
+    {
+        return $this->mpdb->table('multa_delitos')
+            ->distinct()
+            ->select('nombre')
+            ->where('activo', 1)
+            ->where('nombre IS NOT NULL', null, false)
+            ->where('nombre !=', '')
+            ->orderBy('nombre', 'ASC')
+            ->get()
+            ->getResultArray();
+    }
+
+    /**
      * Consolidado de una métrica del informe ejecutivo.
      *
      * Toda la información (totales por estado, distribución por delito,
@@ -47,34 +63,10 @@ class InformeEjecutivoModel
         }
 
         $esHistorico = ! empty($filters['historico']);
-        $fechaCol    = $config['fecha'];
-        $where       = $config['where'];
-        $params      = [];
-
-        if ($esHistorico) {
-            $where[]     = $fechaCol . ' IS NOT NULL';
-            $periodoExpr = "'historico'";
-        } else {
-            $where[]  = $fechaCol . ' >= ?';
-            $params[] = $filters['fechaInicioAnterior'] . ' 00:00:00';
-            $where[]  = $fechaCol . ' <= ?';
-            $params[] = $filters['fechaFin'] . ' 23:59:59';
-
-            $periodoExpr = "CASE WHEN {$fechaCol} >= '" . $filters['fechaInicio'] . " 00:00:00'"
-                . " AND {$fechaCol} <= '" . $filters['fechaFin'] . " 23:59:59'"
-                . " THEN 'actual' ELSE 'anterior' END";
-        }
-
-        foreach ($config['filters'] as $key => $column) {
-            if (empty($filters[$key])) {
-                continue;
-            }
-
-            $where[]  = $column . ' = ?';
-            $params[] = in_array($key, ['region', 'unidad', 'usuario'], true)
-                ? (int) $filters[$key]
-                : $filters[$key];
-        }
+        $partesWhere = $this->buildMetricaWhere($config, $filters);
+        $where       = $partesWhere['where'];
+        $params      = $partesWhere['params'];
+        $periodoExpr = $partesWhere['periodoExpr'];
 
         $sql = "SELECT
                     {$config['delito']} AS dim_delito,
@@ -143,6 +135,61 @@ class InformeEjecutivoModel
     }
 
     /**
+     * Construye el WHERE y los parámetros de una métrica.
+     *
+     * Se reutiliza tanto en el consolidado como en los puntos del mapa.
+     * Cuando $soloPeriodoActual es true se excluye el periodo anterior,
+     * que se usa únicamente para la comparativa.
+     */
+    private function buildMetricaWhere(array $config, array $filters, bool $soloPeriodoActual = false): array
+    {
+        $esHistorico = ! empty($filters['historico']);
+        $fechaCol    = $config['fecha'];
+        $where       = $config['where'];
+        $params      = [];
+
+        if ($esHistorico) {
+            $where[]     = $fechaCol . ' IS NOT NULL';
+            $periodoExpr = "'historico'";
+        } else {
+            $fechaDesde = $soloPeriodoActual
+                ? $filters['fechaInicio']
+                : $filters['fechaInicioAnterior'];
+
+            $where[]  = $fechaCol . ' >= ?';
+            $params[] = $fechaDesde . ' 00:00:00';
+            $where[]  = $fechaCol . ' <= ?';
+            $params[] = $filters['fechaFin'] . ' 23:59:59';
+
+            $periodoExpr = "CASE WHEN {$fechaCol} >= '" . $filters['fechaInicio'] . " 00:00:00'"
+                . " AND {$fechaCol} <= '" . $filters['fechaFin'] . " 23:59:59'"
+                . " THEN 'actual' ELSE 'anterior' END";
+        }
+
+        if (!empty($filters['delito'])) {
+            $where[]  = $config['delito'] . ' = ?';
+            $params[] = $filters['delito'];
+        }
+
+        foreach ($config['filters'] as $key => $column) {
+            if (empty($filters[$key])) {
+                continue;
+            }
+
+            $where[]  = $column . ' = ?';
+            $params[] = in_array($key, ['region', 'unidad', 'usuario'], true)
+                ? (int) $filters[$key]
+                : $filters[$key];
+        }
+
+        return [
+            'where'       => $where,
+            'params'      => $params,
+            'periodoExpr' => $periodoExpr,
+        ];
+    }
+
+    /**
      * Configuración SQL de cada métrica.
      *
      * `delito`, `region`, `municipio` y `estado` son expresiones que se usan
@@ -172,6 +219,8 @@ class InformeEjecutivoModel
                     'fecha'     => 'd.fecha_denuncia',
                     'where'     => [],
                     'valor'     => 'COUNT(*)',
+                    'id'        => 'd.Id',
+                    'folio'     => 'd.folio',
                     'filters'   => [
                         'region'    => 'd.id_region',
                         'municipio' => 'd.ciudad',
@@ -196,6 +245,8 @@ class InformeEjecutivoModel
                     'fecha'     => 'd.fecha_puesta_disposicion',
                     'where'     => ['d.archivado = 0'],
                     'valor'     => 'COUNT(*)',
+                    'id'        => 'd.id',
+                    'folio'     => 'd.folio',
                     'filters'   => [
                         'region'    => 'd.id_region',
                         'municipio' => 'mu.nombre',
@@ -218,6 +269,8 @@ class InformeEjecutivoModel
                     'fecha'     => 'c.fecha',
                     'where'     => [],
                     'valor'     => 'COUNT(*)',
+                    'id'        => 'c.id',
+                    'folio'     => 'c.nuc',
                     'filters'   => [
                         'region'    => 'c.id_region',
                         'municipio' => 'mu.nombre',
@@ -325,6 +378,118 @@ class InformeEjecutivoModel
         }
 
         return null;
+    }
+
+    /**
+     * Puntos georreferenciados de las métricas que se muestran en el mapa.
+     *
+     * Reutiliza la configuración y los filtros de getMetrica()/getMetricaConfig().
+     */
+    public function getPuntosMapa(array $filters = []): array
+    {
+        $resultado = [];
+
+        foreach (['denuncias', 'detenidos', 'cateos'] as $metrica) {
+            $resultado[$metrica] = $this->getPuntosMetrica($metrica, $filters);
+        }
+
+        return $resultado;
+    }
+
+    private function getPuntosMetrica(string $metrica, array $filters): array
+    {
+        $config = $this->getMetricaConfig($metrica);
+
+        if ($config === null) {
+            return ['total' => 0, 'puntos' => []];
+        }
+
+        $partes = $this->buildMetricaWhere($config, $filters, true);
+
+        $select = [
+            $config['id'] . ' AS id',
+            $config['folio'] . ' AS folio',
+            $config['delito'] . ' AS delito',
+            $config['region'] . ' AS region',
+            $config['municipio'] . ' AS municipio',
+            $config['estado'] . ' AS estado',
+            $config['fecha'] . ' AS fecha',
+        ];
+
+        $from = $config['from'];
+
+        switch ($metrica) {
+            case 'denuncias':
+                // La tabla de denuncias no almacena latitud/longitud.
+                $select[] = 'NULL AS lat';
+                $select[] = 'NULL AS lng';
+                $select[] = 'd.calle_hechos AS calle';
+                $select[] = 'd.colonia_hechos AS colonia';
+                break;
+
+            case 'detenidos':
+                $select[] = 'det.lugar_coordenadas_lat AS lat';
+                $select[] = 'det.lugar_coordenadas_lng AS lng';
+                $select[] = 'det.lugar_calle AS calle';
+                $select[] = 'det.lugar_colonia AS colonia';
+                $from    .= ' LEFT JOIN detenciones det ON det.id = d.id_detencion';
+                break;
+
+            case 'cateos':
+                $select[] = 'c.latitud AS lat';
+                $select[] = 'c.longitud AS lng';
+                $select[] = 'c.calle AS calle';
+                $select[] = 'c.colonia AS colonia';
+                break;
+        }
+
+        $sql = 'SELECT ' . implode(', ', $select)
+            . ' FROM ' . $from
+            . ' WHERE ' . implode(' AND ', $partes['where']);
+
+        $rows      = $this->mpdb->query($sql, $partes['params'])->getResultArray();
+        $registros = count($rows);
+
+        $puntos = [];
+
+        foreach ($rows as $row) {
+            if (!$this->esCoordenadaValida($row['lat'] ?? null, $row['lng'] ?? null)) {
+                continue;
+            }
+
+            $puntos[] = [
+                'id'        => (int) $row['id'],
+                'folio'     => $row['folio'],
+                'delito'    => $row['delito'],
+                'region'    => $row['region'],
+                'municipio' => $row['municipio'],
+                'estado'    => $row['estado'],
+                'fecha'     => $row['fecha'],
+                'calle'     => $row['calle'],
+                'colonia'   => $row['colonia'],
+                'lat'       => (float) $row['lat'],
+                'lng'       => (float) $row['lng'],
+            ];
+        }
+
+        return [
+            'total'     => count($puntos),
+            'registros' => $registros,
+            'puntos'    => $puntos,
+        ];
+    }
+
+    private function esCoordenadaValida($lat, $lng): bool
+    {
+        if (!is_numeric($lat) || !is_numeric($lng)) {
+            return false;
+        }
+
+        $lat = (float) $lat;
+        $lng = (float) $lng;
+
+        // Límites aproximados de México. Descarta ceros y valores de prueba.
+        return $lat >= 14.0 && $lat <= 33.0 && $lng >= -118.0 && $lng <= -86.0;
     }
 
     private function normalizarValor(float $valor, bool $esPeso): float|int

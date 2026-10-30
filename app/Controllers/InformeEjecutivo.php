@@ -61,6 +61,20 @@ class InformeEjecutivo extends MyController
         );
     }
 
+    public function getDelitosMpDigital()
+    {
+        return $this->response->setJSON(
+            $this->informeEjecutivoModel->getDelitosMpDigital()
+        );
+    }
+
+    public function getPuntosMapa()
+    {
+        return $this->response->setJSON(
+            $this->informeEjecutivoModel->getPuntosMapa($this->getFiltrosComunes())
+        );
+    }
+
     private function responderMetrica(string $metrica)
     {
         return $this->response->setJSON(
@@ -86,6 +100,7 @@ class InformeEjecutivo extends MyController
             'historico'           => $esHistorico,
             'region'              => trim((string) $this->request->getGet('region')),
             'municipio'           => trim((string) $this->request->getGet('municipio')),
+            'delito'              => trim((string) $this->request->getGet('delito')),
             'unidad'              => trim((string) $this->request->getGet('unidad')),
             'usuario'             => trim((string) $this->request->getGet('usuario')),
             'fechaInicio'         => '',
@@ -155,5 +170,16 @@ class InformeEjecutivo extends MyController
         }
 
         return $date->format('Y-m-d');
+    }
+
+
+
+    //Vista geografica
+
+    public function vistaGeografica()
+    {
+        return $this->render('informe_ejecutivo_vista_geografica_view', [
+            'googleMapsApiKey' => trim((string) env('google.maps.api_key', '')),
+        ]);
     }
 }

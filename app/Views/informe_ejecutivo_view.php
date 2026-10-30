@@ -641,72 +641,80 @@
                                     </div>
                                     <div id="filters-collapsible">
                                         <div class="row g-3" id="filters-row">
-                                        <div class="col-12 col-sm-6 col-xl">
-                                            <div class="form-group mb-0">
-                                                <label for="periodo-filter" class="form-label small mb-1">Periodo:</label>
-                                                <select id="periodo-filter" class="form-select form-select-sm">
-                                                    <option value="lastweek">Últimos 7 días</option>
-                                                    <option value="lastmonth">Últimos 30 días</option>
-                                                    <option value="yeartodate">Último año</option>
-                                                    <option value="historico">Histórico</option>
-                                                    <option value="custom">Personalizado</option>
-                                                </select>
+                                            <div class="col-12 col-sm-6 col-xl">
+                                                <div class="form-group mb-0">
+                                                    <label for="periodo-filter" class="form-label small mb-1">Periodo:</label>
+                                                    <select id="periodo-filter" class="form-select form-select-sm">
+                                                        <option value="lastweek">Últimos 7 días</option>
+                                                        <option value="lastmonth">Últimos 30 días</option>
+                                                        <option value="yeartodate">Último año</option>
+                                                        <option value="historico">Histórico</option>
+                                                        <option value="custom">Personalizado</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-6 col-xl">
+                                                <div class="form-group mb-0">
+                                                    <label for="region-filter" class="form-label small mb-1">Delegación:</label>
+                                                    <select id="region-filter" class="form-select form-select-sm">
+                                                        <option value="">Cargando...</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-6 col-xl">
+                                                <div class="form-group mb-0">
+                                                    <label for="municipio-filter" class="form-label small mb-1">Municipio:</label>
+                                                    <select id="municipio-filter" class="form-select form-select-sm">
+                                                        <option value="">Cargando...</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-6 col-xl">
+                                                <div class="form-group mb-0">
+                                                    <label for="delito-filter" class="form-label small mb-1">Delito:</label>
+                                                    <select id="delito-filter" class="form-select form-select-sm">
+                                                        <option value="">Cargando...</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-6 col-xl">
+                                                <div class="form-group mb-0">
+                                                    <label for="unidades-investigacion-filter" class="form-label small mb-1">Unidad de investigación:</label>
+                                                    <select id="unidades-investigacion-filter" class="form-select form-select-sm">
+                                                        <option value="">Cargando...</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-6 col-xl">
+                                                <div class="form-group mb-0">
+                                                    <label for="usuario-filter" class="form-label small mb-1">Usuario MP Digital:</label>
+                                                    <select id="usuario-filter" class="form-select form-select-sm">
+                                                        <option value="">Cargando...</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-6 col-xl mt-auto">
+                                                <div class="form-group mb-0">
+                                                <button class="btn btn-secondary" id="apply-filter">
+                                                        <i class="ri-filter-2-fill"></i> Aplicar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <div class="row g-3" id="filters-date-row">
+                                            <div class="col-12 col-sm-2 col-xl-2">
+                                                <div class="form-group mb-0">
+                                                    <label for="fecha-inicio" class="form-label small mb-1">Fecha Inicio:</label>
+                                                    <input type="date" id="fecha-inicio" class="form-control form-control-sm">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-2 col-xl-2">
+                                                <div class="form-group mb-0">
+                                                    <label for="fecha-fin" class="form-label small mb-1">Fecha Fin:</label>
+                                                    <input type="date" id="fecha-fin" class="form-control form-control-sm">
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-sm-6 col-xl">
-                                            <div class="form-group mb-0">
-                                                <label for="region-filter" class="form-label small mb-1">Delegación:</label>
-                                                <select id="region-filter" class="form-select form-select-sm">
-                                                    <option value="">Cargando...</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-6 col-xl">
-                                            <div class="form-group mb-0">
-                                                <label for="municipio-filter" class="form-label small mb-1">Municipio:</label>
-                                                <select id="municipio-filter" class="form-select form-select-sm">
-                                                    <option value="">Cargando...</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-6 col-xl">
-                                            <div class="form-group mb-0">
-                                                <label for="unidades-investigacion-filter" class="form-label small mb-1">Unidad de investigación:</label>
-                                                <select id="unidades-investigacion-filter" class="form-select form-select-sm">
-                                                    <option value="">Cargando...</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-6 col-xl">
-                                            <div class="form-group mb-0">
-                                                <label for="usuario-filter" class="form-label small mb-1">Usuario MP Digital:</label>
-                                                <select id="usuario-filter" class="form-select form-select-sm">
-                                                    <option value="">Cargando...</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-6 col-xl mt-auto">
-                                            <div class="form-group mb-0">
-                                               <button class="btn btn-secondary" id="apply-filter">
-                                                    <i class="ri-filter-2-fill"></i> Aplicar
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div> 
-                                    <div class="row g-3" id="filters-date-row">
-                                        <div class="col-12 col-sm-2 col-xl-2">
-                                            <div class="form-group mb-0">
-                                                <label for="fecha-inicio" class="form-label small mb-1">Fecha Inicio:</label>
-                                                <input type="date" id="fecha-inicio" class="form-control form-control-sm">
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-2 col-xl-2">
-                                            <div class="form-group mb-0">
-                                                <label for="fecha-fin" class="form-label small mb-1">Fecha Fin:</label>
-                                                <input type="date" id="fecha-fin" class="form-control form-control-sm">
-                                            </div>
-                                        </div>
-                                    </div>
                                     </div>
                                 </div>
                                 <div class="card-body" id="dashboard-data">
@@ -845,6 +853,7 @@
             const cargasFiltros = [
                 loadDenunciasRegiones(),
                 loadDenunciasMunicipios(),
+                loadDelitosMpDigital(),
                 loadDenunciasUnidades(),
                 loadUsuariosMpDigital()
             ];
@@ -859,7 +868,7 @@
                 actualizarFechasPeriodo($(this).val());
             });
 
-            $('#periodo-filter, #region-filter, #municipio-filter, #unidades-investigacion-filter, #usuario-filter, #fecha-inicio, #fecha-fin')
+            $('#periodo-filter, #region-filter, #municipio-filter, #delito-filter, #unidades-investigacion-filter, #usuario-filter, #fecha-inicio, #fecha-fin')
                 .on('change', function () {
                     guardarFiltros();
                     actualizarResumenFiltros();
@@ -953,6 +962,7 @@
             const periodo   = $('#periodo-filter').val() || 'lastmonth';
             const region    = $('#region-filter').val();
             const municipio = $('#municipio-filter').val();
+            const delito    = $('#delito-filter').val();
             const unidad    = $('#unidades-investigacion-filter').val();
             const usuario   = $('#usuario-filter').val();
 
@@ -968,6 +978,7 @@
 
             if (region)    currentParams.push('region=' + encodeURIComponent(region));
             if (municipio) currentParams.push('municipio=' + encodeURIComponent(municipio));
+            if (delito)    currentParams.push('delito=' + encodeURIComponent(delito));
             if (unidad)    currentParams.push('unidad=' + encodeURIComponent(unidad));
             if (usuario)   currentParams.push('usuario=' + encodeURIComponent(usuario));
         }
@@ -982,6 +993,7 @@
                     periodo: $('#periodo-filter').val() || 'lastmonth',
                     region: $('#region-filter').val() || '',
                     municipio: $('#municipio-filter').val() || '',
+                    delito: $('#delito-filter').val() || '',
                     unidad: $('#unidades-investigacion-filter').val() || '',
                     usuario: $('#usuario-filter').val() || '',
                     fechaInicio: $('#fecha-inicio').val() || '',
@@ -1033,6 +1045,7 @@
             const mapa = {
                 '#region-filter': guardados.region,
                 '#municipio-filter': guardados.municipio,
+                '#delito-filter': guardados.delito,
                 '#unidades-investigacion-filter': guardados.unidad,
                 '#usuario-filter': guardados.usuario
             };
@@ -1078,6 +1091,7 @@
             const filtros = [
                 ['Delegación', $('#region-filter option:selected').text()],
                 ['Municipio', $('#municipio-filter option:selected').text()],
+                ['Delito', $('#delito-filter option:selected').text()],
                 ['Unidad', $('#unidades-investigacion-filter option:selected').text()],
                 ['Usuario', $('#usuario-filter option:selected').text()]
             ];
@@ -1289,7 +1303,7 @@
                 return;
             }
 
-            $('#region-filter, #municipio-filter, #unidades-investigacion-filter, #usuario-filter, #periodo-filter').chosen({
+            $('#region-filter, #municipio-filter, #delito-filter, #unidades-investigacion-filter, #usuario-filter, #periodo-filter').chosen({
                 width: '100%',
                 search_contains: true,
                 no_results_text: 'No se encontraron resultados'
@@ -1357,6 +1371,36 @@
                     console.error('Error al cargar municipios:', error);
                     $('#municipio-filter').html('<option value="">Error al cargar</option>');
                     refreshFilterChosen('#municipio-filter');
+                }
+            });
+        }
+
+        function loadDelitosMpDigital() {
+            return $.ajax({
+                url: '<?php echo base_url('InformeEjecutivo/getDelitosMpDigital'); ?>',
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    const $select = $('#delito-filter').empty();
+                    $select.append($('<option>', { value: '', text: 'Todos' }));
+
+                    (response || []).forEach(function(delito) {
+                        const nombre = String(delito.nombre || '').trim();
+
+                        if (nombre === '') {
+                            return;
+                        }
+
+                        $select.append($('<option>', { value: nombre, text: nombre }));
+                    });
+
+                    refreshFilterChosen('#delito-filter');
+                    restaurarFiltrosSelects(obtenerFiltrosGuardados());
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al cargar delitos de MP Digital:', error);
+                    $('#delito-filter').html('<option value="">Error al cargar</option>');
+                    refreshFilterChosen('#delito-filter');
                 }
             });
         }

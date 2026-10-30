@@ -62,6 +62,9 @@ $routes->group('InformeEjecutivo', static function ($routes) {
     $routes->get('getBienes', 'InformeEjecutivo::getBienes');
     $routes->get('getDroga', 'InformeEjecutivo::getDroga');
     $routes->get('getUsuariosMpDigital', 'InformeEjecutivo::getUsuariosMpDigital');
+    $routes->get('getDelitosMpDigital', 'InformeEjecutivo::getDelitosMpDigital');
+    $routes->get('getPuntosMapa', 'InformeEjecutivo::getPuntosMapa');
+    $routes->get('vistaGeografica', 'InformeEjecutivo::vistaGeografica');
 });
 
 $routes->group('estadisticas', static function ($routes) {
