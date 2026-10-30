@@ -89,6 +89,43 @@
             max-height: 520px;
             overflow-y: auto;
         }
+
+        /* Leyenda externa de la gráfica de pastel */
+        .pie-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .15rem .6rem;
+            max-height: 78px;
+            overflow-y: auto;
+            font-size: 10px;
+            line-height: 1.2;
+        }
+
+        .pie-legend-item {
+            display: flex;
+            align-items: center;
+            gap: .25rem;
+            min-width: 0;
+        }
+
+        .pie-legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+            flex: 0 0 auto;
+        }
+
+        .pie-legend-name {
+            max-width: 110px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .pie-legend-value {
+            color: #6c757d;
+            flex: 0 0 auto;
+        }
           .text-center {
             text-align: center;
         }
@@ -151,6 +188,30 @@
             line-height: 1.15;
             white-space: nowrap;
         }
+
+        /* Colapso de filtros solo en mobile */
+        .mobile-filters-toggle {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            min-width: 0;
+        }
+
+        .mobile-filters-summary {
+            flex: 1 1 auto;
+            min-width: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: .72rem;
+            color: #6c757d;
+        }
+
+        @media (min-width: 768px) {
+            #filters-collapsible {
+                display: block !important;
+            }
+        }
         
         /* Responsive improvements */
         @media (max-width: 1199.98px) {
@@ -171,48 +232,103 @@
             .chart-data-table td {
                 padding: 3px 4px;
             }
+
+            /* Todas las tarjetas de tópicos en una sola línea */
+            #topic-cards {
+                gap: .25rem;
+                padding-bottom: .25rem;
+            }
+
+            #topic-cards > .col-auto {
+                flex: 1 1 0;
+                width: 0;
+                min-width: 0;
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            #topic-cards .topic-card .card-body {
+                width: 100%;
+                min-width: 0;
+                padding: .3rem .15rem;
+                gap: .15rem !important;
+            }
+
+            #topic-cards .topic-card .card-body > div {
+                width: 100%;
+                min-width: 0;
+            }
+
+            #topic-cards .topic-card {
+                min-width: 0;
+            }
+
+            #topic-cards .topic-card .avatar-sm {
+                width: 1.45rem;
+                height: 1.45rem;
+            }
+
+            #topic-cards .topic-card .avatar-title {
+                font-size: .8rem !important;
+            }
+
+            #topic-cards .topic-card .card-body p {
+                font-size: .5rem;
+                line-height: 1.05;
+                max-width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            /* KPIs (Total, Activos, Concluidos) en una sola línea */
+            .metric-kpi-row .card-body {
+                padding: .45rem .35rem;
+                gap: .2rem !important;
+            }
+
+            .metric-kpi-row .card-body > .avatar-title {
+                display: none !important;
+            }
+
+            .metric-kpi-row .card-body p {
+                font-size: .55rem;
+                line-height: 1.1;
+                margin-bottom: .1rem !important;
+            }
+
+            .metric-kpi-row .card-body h3 {
+                font-size: .95rem;
+                line-height: 1.1;
+            }
+
+            .metric-kpi-row .card-body h3 small {
+                font-size: .55rem !important;
+            }
+
+            /* Tarjeta de variación compacta en mobile */
+            [id^="variacion-"] .card-body {
+                align-items: flex-start;
+                gap: .35rem !important;
+                padding: .5rem .6rem;
+            }
+
+            [id^="variacion-"] .card-body > i {
+                display: none !important;
+            }
+
+            [id^="variacion-"] h4 {
+                font-size: 1rem;
+            }
+
+            [id^="variacion-"] p {
+                font-size: .6rem !important;
+            }
         }
         
         /* Chart container: Highcharts usa el ancho del contenedor */
-        #denuncias-chart-container {
+        .metric-chart {
             width: 100%;
-            height: 350px;
-        }
-        
-        #detenidos-chart-container {
-            width: 100%;
-            height: 380px;
-        }
-        
-        #detenidos-delitos-chart-container {
-            width: 100%;
-            height: 380px;
-        }
-        
-        #cateos-corporaciones-chart-container,
-        #cateos-regiones-chart-container {
-            width: 100%;
-            height: 380px;
-        }
-        
-        #expedientes-chart-container {
-            width: 100%;
-            height: 380px;
-        }
-        
-        #medidas-chart-container {
-            width: 100%;
-            height: 380px;
-        }
-
-        #bienes-chart-container {
-            width: 100%;
-            height: 380px;
-        }
-
-        #droga-chart-container {
-            width: 100%;
-            height: 380px;
+            height: 360px;
         }
 
         #dashboard-data {
@@ -238,30 +354,8 @@
             .mb-4 {
                 margin-bottom: 1rem !important;
             }
-            #denuncias-chart-container {
+            .metric-chart {
                 height: 300px;
-            }
-            #detenidos-chart-container {
-                height: 320px;
-            }
-            #detenidos-delitos-chart-container {
-                height: 320px;
-            }
-            #cateos-corporaciones-chart-container,
-            #cateos-regiones-chart-container {
-                height: 320px;
-            }
-            #expedientes-chart-container {
-                height: 320px;
-            }
-            #medidas-chart-container {
-                height: 320px;
-            }
-            #bienes-chart-container {
-                height: 320px;
-            }
-            #droga-chart-container {
-                height: 320px;
             }
             .form-control-sm,
             .form-select-sm {
@@ -473,7 +567,7 @@
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <div class="card topic-card border h-100" data-topic="expedientes"
+                                            <div class="card topic-card border h-100" data-topic="expedientes" data-short="Exp."
                                                 role="button" tabindex="0" aria-pressed="false"
                                                 aria-label="Mostrar u ocultar las gráficas de expedientes">
                                                 <div class="card-body d-flex flex-column align-items-center justify-content-center text-center gap-2">
@@ -489,7 +583,7 @@
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <div class="card topic-card border h-100" data-topic="medidas"
+                                            <div class="card topic-card border h-100" data-topic="medidas" data-short="Medidas"
                                                 role="button" tabindex="0" aria-pressed="false"
                                                 aria-label="Mostrar u ocultar las gráficas de medidas de protección">
                                                 <div class="card-body d-flex flex-column align-items-center justify-content-center text-center gap-2">
@@ -505,7 +599,7 @@
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <div class="card topic-card border h-100" data-topic="bienes"
+                                            <div class="card topic-card border h-100" data-topic="bienes" data-short="Bienes"
                                                 role="button" tabindex="0" aria-pressed="false"
                                                 aria-label="Mostrar u ocultar la gráfica de bienes asegurados">
                                                 <div class="card-body d-flex flex-column align-items-center justify-content-center text-center gap-2">
@@ -521,7 +615,7 @@
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <div class="card topic-card border h-100" data-topic="droga"
+                                            <div class="card topic-card border h-100" data-topic="droga" data-short="Droga"
                                                 role="button" tabindex="0" aria-pressed="false"
                                                 aria-label="Mostrar u ocultar la gráfica de droga asegurada">
                                                 <div class="card-body d-flex flex-column align-items-center justify-content-center text-center gap-2">
@@ -537,7 +631,16 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row g-3" id="filters-row">
+                                    <div class="d-md-none mobile-filters-toggle mb-2">
+                                        <button type="button" class="btn btn-sm btn-light border" id="toggle-filters-mobile"
+                                            aria-expanded="true" aria-controls="filters-collapsible">
+                                            <i class="ri-filter-3-line me-1"></i><span>Filtros</span>
+                                            <i class="ri-arrow-up-s-line toggle-filters-icon ms-1"></i>
+                                        </button>
+                                        <div id="mobile-filters-summary" class="mobile-filters-summary d-none"></div>
+                                    </div>
+                                    <div id="filters-collapsible">
+                                        <div class="row g-3" id="filters-row">
                                         <div class="col-12 col-sm-6 col-xl">
                                             <div class="form-group mb-0">
                                                 <label for="periodo-filter" class="form-label small mb-1">Periodo:</label>
@@ -545,6 +648,7 @@
                                                     <option value="lastweek">Últimos 7 días</option>
                                                     <option value="lastmonth">Últimos 30 días</option>
                                                     <option value="yeartodate">Último año</option>
+                                                    <option value="historico">Histórico</option>
                                                     <option value="custom">Personalizado</option>
                                                 </select>
                                             </div>
@@ -570,16 +674,6 @@
                                                 <label for="unidades-investigacion-filter" class="form-label small mb-1">Unidad de investigación:</label>
                                                 <select id="unidades-investigacion-filter" class="form-select form-select-sm">
                                                     <option value="">Cargando...</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-6 col-xl">
-                                            <div class="form-group mb-0">
-                                                <label for="estado-filter" class="form-label small mb-1">Estado:</label>
-                                                <select id="estado-filter" class="form-select form-select-sm">
-                                                    <option value="activo">Solo activos</option>
-                                                    <option value="inactivo">Solo inactivos</option>
-                                                    <option value="todos" selected>Todos</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -613,6 +707,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    </div>
                                 </div>
                                 <div class="card-body" id="dashboard-data">
                                     <div id="dashboard-loader" class="dashboard-loader d-none">
@@ -622,179 +717,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="chart-topic" data-topic="denuncias">
-                                        <div class="row mb-4">
-                                            <div class="col-12">
-                                                <div class="card border">
-                                                    <div class="card-header bg-light">
-                                                        <h6 class="card-title mb-0">Denuncias por Instrumento</h6>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="row">
-                                                            <div class="col-12 col-lg-8">
-                                                                <figure class="highcharts-figure mb-0">
-                                                                    <div id="denuncias-chart-container"></div>
-                                                                </figure>
-                                                            </div>
-                                                            <div class="col-12 col-lg-4">
-                                                                <div id="denuncias-table-container" class="mt-3 mt-lg-0 table-responsive"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="chart-topic" data-topic="detenidos">
-                                        <div class="row mb-4">
-                                            <div class="col-12 col-xl-6 mb-4 mb-xl-0">
-                                                <div class="card border h-100">
-                                                    <div class="card-header bg-light">
-                                                        <h6 class="card-title mb-0">Detenidos por Rango de Edad</h6>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div id="detenidos-chart-container"></div>
-                                                        <div id="detenidos-table-container" class="mt-3 table-responsive"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-xl-6">
-                                                <div class="card border h-100">
-                                                    <div class="card-header bg-light">
-                                                        <h6 class="card-title mb-0">Detenidos por Delito</h6>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div id="detenidos-delitos-chart-container"></div>
-                                                        <div id="detenidos-delitos-table-container" class="mt-3 table-responsive"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="chart-topic" data-topic="cateos">
-                                        <div class="row mb-4">
-                                            <div class="col-12 col-xl-6 mb-4 mb-xl-0">
-                                                <div class="card border h-100">
-                                                    <div class="card-header bg-light">
-                                                        <h6 class="card-title mb-0">Cateos por Corporación</h6>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div id="cateos-corporaciones-chart-container"></div>
-                                                        <div id="cateos-corporaciones-table-container" class="mt-3 table-responsive"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-xl-6">
-                                                <div class="card border h-100">
-                                                    <div class="card-header bg-light">
-                                                        <h6 class="card-title mb-0">Cateos por Región</h6>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div id="cateos-regiones-chart-container"></div>
-                                                        <div id="cateos-regiones-table-container" class="mt-3 table-responsive"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="chart-topic" data-topic="expedientes">
-                                        <div class="row mb-4">
-                                            <div class="col-12">
-                                                <div class="card border">
-                                                    <div class="card-header bg-light">
-                                                        <h6 class="card-title mb-0">Expedientes por Unidad de Investigación</h6>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="row">
-                                                            <div class="col-12 col-lg-8">
-                                                                <figure class="highcharts-figure mb-0">
-                                                                    <div id="expedientes-chart-container"></div>
-                                                                </figure>
-                                                            </div>
-                                                            <div class="col-12 col-lg-4">
-                                                                <div id="expedientes-table-container" class="mt-3 mt-lg-0 table-responsive chart-table-scroll"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="chart-topic" data-topic="medidas">
-                                        <div class="row mb-4">
-                                            <div class="col-12">
-                                                <div class="card border">
-                                                    <div class="card-header bg-light">
-                                                        <h6 class="card-title mb-0">Medidas de Protección por Delito</h6>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="row">
-                                                            <div class="col-12 col-lg-8">
-                                                                <figure class="highcharts-figure mb-0">
-                                                                    <div id="medidas-chart-container"></div>
-                                                                </figure>
-                                                            </div>
-                                                            <div class="col-12 col-lg-4">
-                                                                <div id="medidas-table-container" class="mt-3 mt-lg-0 table-responsive chart-table-scroll"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="chart-topic" data-topic="bienes">
-                                        <div class="row mb-4">
-                                            <div class="col-12">
-                                                <div class="card border">
-                                                    <div class="card-header bg-light">
-                                                        <h6 class="card-title mb-0">Bienes Asegurados por Tipo de Objeto</h6>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="row">
-                                                            <div class="col-12 col-lg-8">
-                                                                <figure class="highcharts-figure mb-0">
-                                                                    <div id="bienes-chart-container"></div>
-                                                                </figure>
-                                                            </div>
-                                                            <div class="col-12 col-lg-4">
-                                                                <div id="bienes-table-container" class="mt-3 mt-lg-0 table-responsive"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="chart-topic" data-topic="droga">
-                                        <div class="row mb-4">
-                                            <div class="col-12">
-                                                <div class="card border">
-                                                    <div class="card-header bg-light">
-                                                        <h6 class="card-title mb-0">Droga Asegurada por Unidad de Investigación</h6>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="row">
-                                                            <div class="col-12 col-lg-8">
-                                                                <figure class="highcharts-figure mb-0">
-                                                                    <div id="droga-chart-container"></div>
-                                                                </figure>
-                                                            </div>
-                                                            <div class="col-12 col-lg-4">
-                                                                <div id="droga-table-container" class="mt-3 mt-lg-0 table-responsive"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <div id="metric-sections"></div>
                                 </div>
                             </div>
                         </div>
@@ -842,108 +765,124 @@
 
     <script type="text/javascript">
         
-        let topicCharts = [];
-        let topicFilters = [];
+        const METRICAS = [
+            {
+                key: 'denuncias',
+                titulo: 'Denuncias',
+                endpoint: '<?php echo base_url('InformeEjecutivo/getDenuncias'); ?>',
+                unidad: ''
+            },
+            {
+                key: 'detenidos',
+                titulo: 'Detenidos',
+                endpoint: '<?php echo base_url('InformeEjecutivo/getDetenidos'); ?>',
+                unidad: ''
+            },
+            {
+                key: 'cateos',
+                titulo: 'Cateos',
+                endpoint: '<?php echo base_url('InformeEjecutivo/getCateos'); ?>',
+                unidad: ''
+            },
+            {
+                key: 'expedientes',
+                titulo: 'Expedientes',
+                endpoint: '<?php echo base_url('InformeEjecutivo/getExpedientes'); ?>',
+                unidad: ''
+            },
+            {
+                key: 'medidas',
+                titulo: 'Medidas de Protección',
+                endpoint: '<?php echo base_url('InformeEjecutivo/getMedidas'); ?>',
+                unidad: ''
+            },
+            {
+                key: 'bienes',
+                titulo: 'Bienes Asegurados',
+                endpoint: '<?php echo base_url('InformeEjecutivo/getBienes'); ?>',
+                unidad: ''
+            },
+            {
+                key: 'droga',
+                titulo: 'Droga Asegurada',
+                endpoint: '<?php echo base_url('InformeEjecutivo/getDroga'); ?>',
+                unidad: 'kg'
+            }
+        ];
+
+        const PALETA = ['#E74C3C', '#E67E22', '#F39C12', '#27AE60', '#1ABC9C',
+                        '#3498DB', '#9B59B6', '#34495E', '#95A5A6', '#7F8C8D',
+                        '#D35400', '#C0392B', '#16A085', '#BDC3C7'];
+
+        let topicCharts = {};
+        let topicFilters = {};
         let currentTopic = null;
         let currentParams = [];
+
+        const FILTROS_STORAGE_KEY = 'informeEjecutivoFiltros';
+        let filtrosListos = false;
+
         $(document).ready(function () {
+            if (window.Highcharts) {
+                Highcharts.setOptions({
+                    lang: { noData: 'Sin información para los filtros seleccionados' }
+                });
+            }
+
+            restaurarFiltros();
             initFilterChosen();
-            loadDenunciasRegiones();
-            loadDenunciasMunicipios();
-            loadDenunciasUnidades();
-            loadUsuariosMpDigital();
 
+            if (window.matchMedia('(max-width: 767.98px)').matches) {
+                $('#filters-collapsible').hide();
+                $('#mobile-filters-summary').removeClass('d-none');
+                $('#toggle-filters-mobile')
+                    .attr('aria-expanded', 'false')
+                    .find('.toggle-filters-icon')
+                    .attr('class', 'ri-arrow-down-s-line toggle-filters-icon ms-1');
+                actualizarResumenFiltros();
+            }
 
-            topicCharts["denuncias"] = [
-                () => loadDenunciasChart()
+            const cargasFiltros = [
+                loadDenunciasRegiones(),
+                loadDenunciasMunicipios(),
+                loadDenunciasUnidades(),
+                loadUsuariosMpDigital()
             ];
 
-            topicCharts["detenidos"] = [
-                () => loadDetenidosChart(),
-                () => loadDetenidosDelitosChart()
-            ];
+            buildMetricSections();
 
-            topicCharts["cateos"] = [
-                () => loadCateosCorporacionesChart(),
-                () => loadCateosRegionesChart()
-            ];
-
-            topicCharts["expedientes"] = [
-                () => loadExpedientesChart()
-            ];
-
-            topicCharts["medidas"] = [
-                () => loadMedidasChart()
-            ];
-
-            topicCharts["bienes"] = [
-                () => loadBienesAseguradosChart()
-            ];
-
-            topicCharts["droga"] = [
-                () => loadDrogaChart()
-            ];
+            METRICAS.forEach(function (metrica) {
+                topicCharts[metrica.key] = [function () { loadMetrica(metrica.key); }];
+            });
 
             $('#periodo-filter').on('change', function () {
-                const valor = $(this).val();
-
-                $('#filters-date-row').css("display", valor == "custom" ? "" : "none");
-
-                const hoy = new Date();
-                const fechaFin = hoy.toISOString().split('T')[0];
-
-                let fechaInicio = null;
-
-                if (valor === "lastweek") {
-                    const inicio = new Date(hoy);
-                    inicio.setDate(hoy.getDate() - 7);
-                    fechaInicio = inicio.toISOString().split('T')[0];
-
-                } else if (valor === "lastmonth") {
-                    const inicio = new Date(hoy);
-                    inicio.setDate(hoy.getDate() - 30);
-                    fechaInicio = inicio.toISOString().split('T')[0];
-
-                } else if (valor === "yeartodate") {
-                    fechaInicio = `${hoy.getFullYear()}-01-01`;
-                }
-
-                if (fechaInicio !== null) {
-                    $('#fecha-inicio').val(fechaInicio);
-                    $('#fecha-fin').val(fechaFin);
-                }
+                actualizarFechasPeriodo($(this).val());
             });
 
-            $('#periodo-filter').trigger("change");
+            $('#periodo-filter, #region-filter, #municipio-filter, #unidades-investigacion-filter, #usuario-filter, #fecha-inicio, #fecha-fin')
+                .on('change', function () {
+                    guardarFiltros();
+                    actualizarResumenFiltros();
+                });
 
-            $('#apply-filter').click(function (e) { 
-                currentParams = [];
+            $('#periodo-filter').trigger('change');
 
-                const inicio    = $('#fecha-inicio').val();
-                const fin       = $('#fecha-fin').val();
-                const region    = $('#region-filter').val();
-                const municipio = $('#municipio-filter').val();
-                const unidad    = $('#unidades-investigacion-filter').val();
-                const estado    = $('#estado-filter').val();
-                const usuario   = $('#usuario-filter').val();
-
-                if (inicio)    currentParams.push('fechaInicio=' + encodeURIComponent(inicio));
-                if (fin)       currentParams.push('fechaFin=' + encodeURIComponent(fin));
-                if (region)    currentParams.push('region=' + encodeURIComponent(region));
-                if (municipio) currentParams.push('municipio=' + encodeURIComponent(municipio));
-                if (unidad)    currentParams.push('unidad=' + encodeURIComponent(unidad));
-                if (estado)    currentParams.push('estado=' + encodeURIComponent(estado));
-                if (usuario)   currentParams.push('usuario=' + encodeURIComponent(usuario));
-
-                if(currentTopic != null){
-                    applyTopicFilter();
-                }
-
-                
+            $('#apply-filter').click(function () {
+                construirParametros();
+                guardarFiltros();
+                actualizarResumenFiltros();
+                applyTopicFilter();
             });
 
+            $('#apply-filter').trigger('click');
 
-            $('#apply-filter').trigger("click");
+            $.when.apply($, cargasFiltros).always(function () {
+                filtrosListos = true;
+                construirParametros();
+                guardarFiltros();
+                actualizarResumenFiltros();
+                applyTopicFilter();
+            });
 
             $('#topic-cards').on('click', '.topic-card', function () {
                 const card = $(this);
@@ -954,8 +893,7 @@
                 if (!wasActive) {
                     card.addClass('active').attr('aria-pressed', 'true');
                 }
-                
-                
+
                 applyTopicFilter();
             });
 
@@ -966,48 +904,383 @@
                 }
             });
 
+            $('#metric-sections').on('click', '.btn-detalles', function () {
+                const $btn = $(this);
+                const $tabla = $('#' + $btn.data('target'));
+
+                if (!$tabla.length) {
+                    return;
+                }
+
+                $tabla.stop(true, true).slideToggle(180, function () {
+                    const abierta = $tabla.is(':visible');
+
+                    $btn.attr('aria-expanded', abierta ? 'true' : 'false');
+                    $btn.find('i').attr('class', (abierta ? 'ri-arrow-up-s-line' : 'ri-arrow-down-s-line') + ' me-1');
+                    $btn.find('span').text(abierta ? 'Ocultar detalles' : 'Detalles');
+                });
+            });
+
+            $('#toggle-filters-mobile').on('click', function () {
+                const $btn = $(this);
+                const $filtros = $('#filters-collapsible');
+                const $resumen = $('#mobile-filters-summary');
+                const abierta = $filtros.is(':visible');
+
+                if (abierta) {
+                    $filtros.stop(true, true).slideUp(180);
+                    actualizarResumenFiltros();
+                    $resumen.removeClass('d-none');
+                    $btn.attr('aria-expanded', 'false');
+                    $btn.find('.toggle-filters-icon').attr('class', 'ri-arrow-down-s-line toggle-filters-icon ms-1');
+                } else {
+                    $resumen.addClass('d-none');
+                    $filtros.stop(true, true).slideDown(180);
+                    $btn.attr('aria-expanded', 'true');
+                    $btn.find('.toggle-filters-icon').attr('class', 'ri-arrow-up-s-line toggle-filters-icon ms-1');
+                }
+            });
+
+            sincronizarEtiquetasTopicos();
+            window.addEventListener('resize', sincronizarEtiquetasTopicos);
+
             applyTopicFilter();
         });
+
+        function construirParametros() {
+            currentParams = [];
+
+            const periodo   = $('#periodo-filter').val() || 'lastmonth';
+            const region    = $('#region-filter').val();
+            const municipio = $('#municipio-filter').val();
+            const unidad    = $('#unidades-investigacion-filter').val();
+            const usuario   = $('#usuario-filter').val();
+
+            currentParams.push('periodo=' + encodeURIComponent(periodo));
+
+            if (periodo !== 'historico') {
+                const inicio = $('#fecha-inicio').val();
+                const fin    = $('#fecha-fin').val();
+
+                if (inicio) currentParams.push('fechaInicio=' + encodeURIComponent(inicio));
+                if (fin)    currentParams.push('fechaFin=' + encodeURIComponent(fin));
+            }
+
+            if (region)    currentParams.push('region=' + encodeURIComponent(region));
+            if (municipio) currentParams.push('municipio=' + encodeURIComponent(municipio));
+            if (unidad)    currentParams.push('unidad=' + encodeURIComponent(unidad));
+            if (usuario)   currentParams.push('usuario=' + encodeURIComponent(usuario));
+        }
+
+        function guardarFiltros() {
+            if (!filtrosListos) {
+                return;
+            }
+
+            try {
+                localStorage.setItem(FILTROS_STORAGE_KEY, JSON.stringify({
+                    periodo: $('#periodo-filter').val() || 'lastmonth',
+                    region: $('#region-filter').val() || '',
+                    municipio: $('#municipio-filter').val() || '',
+                    unidad: $('#unidades-investigacion-filter').val() || '',
+                    usuario: $('#usuario-filter').val() || '',
+                    fechaInicio: $('#fecha-inicio').val() || '',
+                    fechaFin: $('#fecha-fin').val() || ''
+                }));
+            } catch (error) {
+                console.warn('No se pudieron guardar los filtros en localStorage:', error);
+            }
+        }
+
+        function obtenerFiltrosGuardados() {
+            try {
+                const raw = localStorage.getItem(FILTROS_STORAGE_KEY);
+
+                return raw ? JSON.parse(raw) : null;
+            } catch (error) {
+                console.warn('No se pudieron leer los filtros de localStorage:', error);
+                return null;
+            }
+        }
+
+        function restaurarFiltros() {
+            const guardados = obtenerFiltrosGuardados();
+
+            if (!guardados) {
+                return;
+            }
+
+            if (guardados.periodo) {
+                $('#periodo-filter').val(guardados.periodo);
+            }
+
+            if (guardados.fechaInicio) {
+                $('#fecha-inicio').val(guardados.fechaInicio);
+            }
+
+            if (guardados.fechaFin) {
+                $('#fecha-fin').val(guardados.fechaFin);
+            }
+
+            restaurarFiltrosSelects(guardados);
+        }
+
+        function restaurarFiltrosSelects(guardados) {
+            if (!guardados) {
+                return;
+            }
+
+            const mapa = {
+                '#region-filter': guardados.region,
+                '#municipio-filter': guardados.municipio,
+                '#unidades-investigacion-filter': guardados.unidad,
+                '#usuario-filter': guardados.usuario
+            };
+
+            Object.keys(mapa).forEach(function (selector) {
+                const valor = mapa[selector];
+
+                if (valor === undefined || valor === null || valor === '') {
+                    return;
+                }
+
+                const $select = $(selector);
+                const existe = $select.find('option').filter(function () {
+                    return this.value === String(valor);
+                }).length > 0;
+
+                if (existe) {
+                    $select.val(String(valor));
+                    refreshFilterChosen(selector);
+                }
+            });
+        }
+
+        function actualizarResumenFiltros() {
+            const $resumen = $('#mobile-filters-summary');
+
+            if (!$resumen.length) {
+                return;
+            }
+
+            const periodo = $('#periodo-filter').val();
+            const periodoTexto = ($('#periodo-filter option:selected').text() || '').trim();
+            const partes = [];
+
+            if (periodo === 'custom') {
+                const inicio = $('#fecha-inicio').val();
+                const fin = $('#fecha-fin').val();
+                partes.push('Personalizado: ' + (inicio || 'sin inicio') + ' a ' + (fin || 'sin fin'));
+            } else if (periodoTexto) {
+                partes.push(periodoTexto);
+            }
+
+            const filtros = [
+                ['Delegación', $('#region-filter option:selected').text()],
+                ['Municipio', $('#municipio-filter option:selected').text()],
+                ['Unidad', $('#unidades-investigacion-filter option:selected').text()],
+                ['Usuario', $('#usuario-filter option:selected').text()]
+            ];
+
+            filtros.forEach(function (filtro) {
+                const etiqueta = filtro[0];
+                const valor = (filtro[1] || '').trim();
+
+                if (!valor || valor === 'Todas' || valor === 'Todos'
+                    || valor === 'Cargando...' || valor === 'Error al cargar') {
+                    return;
+                }
+
+                partes.push(etiqueta + ': ' + valor);
+            });
+
+            const texto = partes.join(' · ');
+            $resumen.text(texto).attr('title', texto);
+        }
+
+        function sincronizarEtiquetasTopicos() {
+            const esMobile = window.matchMedia('(max-width: 767.98px)').matches;
+
+            $('#topic-cards .topic-card').each(function () {
+                const $card = $(this);
+                const $label = $card.find('.card-body p').first();
+
+                if (!$label.length) {
+                    return;
+                }
+
+                if ($card.data('textoLargo') === undefined) {
+                    $card.data('textoLargo', $label.html());
+                }
+
+                const textoLargo = $card.data('textoLargo');
+                const textoCorto = $card.attr('data-short') || $label.text().trim();
+
+                $label.html(esMobile ? textoCorto : textoLargo);
+            });
+        }
+
+        function actualizarFechasPeriodo(valor) {
+            const esCustom = valor === 'custom';
+            $('#filters-date-row').css('display', esCustom ? '' : 'none');
+
+            if (valor === 'historico') {
+                $('#fecha-inicio').val('');
+                $('#fecha-fin').val('');
+                return;
+            }
+
+            if (esCustom) {
+                return;
+            }
+
+            const hoy = new Date();
+            const fechaFin = formatearFechaLocal(hoy);
+            let fechaInicio = null;
+
+            if (valor === 'lastweek') {
+                const inicio = new Date(hoy);
+                inicio.setDate(hoy.getDate() - 7);
+                fechaInicio = formatearFechaLocal(inicio);
+            } else if (valor === 'lastmonth') {
+                const inicio = new Date(hoy);
+                inicio.setDate(hoy.getDate() - 30);
+                fechaInicio = formatearFechaLocal(inicio);
+            } else if (valor === 'yeartodate') {
+                fechaInicio = `${hoy.getFullYear()}-01-01`;
+            }
+
+            if (fechaInicio !== null) {
+                $('#fecha-inicio').val(fechaInicio);
+                $('#fecha-fin').val(fechaFin);
+            }
+        }
+
+        function formatearFechaLocal(date) {
+            const year  = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day   = String(date.getDate()).padStart(2, '0');
+
+            return `${year}-${month}-${day}`;
+        }
+
+        function metricByKey(key) {
+            return METRICAS.find(function (metrica) { return metrica.key === key; });
+        }
+
+        function buildMetricSections() {
+            const html = METRICAS.map(function (metrica) {
+                return [
+                    '<div class="chart-topic" data-topic="' + metrica.key + '">',
+                    '<div class="row g-3 mb-3 metric-kpi-row">',
+                    kpiCard(metrica, 'total', 'Total', 'primary', 'stack-line'),
+                    kpiCard(metrica, 'activos', 'Activos', 'success', 'checkbox-circle-line'),
+                    kpiCard(metrica, 'concluidos', 'Concluidos', 'secondary', 'checkbox-blank-circle-line'),
+                    '</div>',
+                    '<div class="row g-3">',
+                    chartCard(metrica, 'comparativa', 'Periodo Actual vs Anterior'),
+                    chartCard(metrica, 'region', 'Por Delegación / Región'),
+                    chartCard(metrica, 'municipio', 'Por Municipio'),
+                    chartCard(metrica, 'delito', 'Por Delito'),
+                    '</div>',
+                    '</div>'
+                ].join('');
+            }).join('');
+
+            $('#metric-sections').html(html);
+        }
+
+        function kpiCard(metrica, campo, etiqueta, color, icono) {
+            const unidad = metrica.unidad
+                ? ' <small class="text-muted fs-6">' + metrica.unidad + '</small>'
+                : '';
+
+            return [
+                '<div class="col-4">',
+                '<div class="card border h-100">',
+                '<div class="card-body d-flex align-items-center justify-content-between gap-3">',
+                '<div>',
+                '<p class="text-muted mb-1 small text-uppercase">' + etiqueta + '</p>',
+                '<h3 class="mb-0"><span id="kpi-' + metrica.key + '-' + campo + '">0</span>' + unidad + '</h3>',
+                '</div>',
+                '<span class="avatar-title bg-' + color + '-subtle text-' + color + ' rounded fs-3" style="width:3rem;height:3rem;display:flex;align-items:center;justify-content:center;">',
+                '<i class="ri-' + icono + '"></i>',
+                '</span>',
+                '</div>',
+                '</div>',
+                '</div>'
+            ].join('');
+        }
+
+        function chartCard(metrica, dimension, titulo) {
+            const esComparativa = dimension === 'comparativa';
+            const antes = esComparativa
+                ? '<div id="variacion-' + metrica.key + '" class="mb-3"></div>'
+                : '';
+            const leyenda = dimension === 'region'
+                ? '<div id="legend-' + metrica.key + '-region" class="pie-legend mt-2"></div>'
+                : '';
+            const despues = esComparativa
+                ? ''
+                : [
+                    '<button type="button" class="btn btn-sm btn-outline-secondary mt-3 w-100 btn-detalles"',
+                    ' data-target="table-' + metrica.key + '-' + dimension + '"',
+                    ' aria-expanded="false" aria-controls="table-' + metrica.key + '-' + dimension + '">',
+                    '<i class="ri-arrow-down-s-line me-1"></i><span>Detalles</span>',
+                    '</button>',
+                    '<div id="table-' + metrica.key + '-' + dimension + '" class="mt-2 table-responsive chart-table-scroll" style="display:none;"></div>'
+                ].join('');
+
+            return [
+                '<div class="col-12 col-md-6 col-xl-3">',
+                '<div class="card border h-100">',
+                '<div class="card-header bg-light">',
+                '<h6 class="card-title mb-0">' + metrica.titulo + ' · ' + titulo + '</h6>',
+                '</div>',
+                '<div class="card-body">',
+                antes,
+                '<div id="chart-' + metrica.key + '-' + dimension + '" class="metric-chart"></div>',
+                leyenda,
+                despues,
+                '</div>',
+                '</div>',
+                '</div>'
+            ].join('');
+        }
 
         function applyTopicFilter() {
             const activeTopic = $('#topic-cards .topic-card.active').first().data('topic');
             const hasSelection = activeTopic !== undefined && activeTopic !== '';
 
+            currentTopic = hasSelection ? activeTopic : null;
 
-            currentTopic = activeTopic;
-            if(topicFilters[currentTopic] == undefined){
-                topicFilters[currentTopic] = [];
+            if (hasSelection && topicCharts[activeTopic]) {
+                if (!topicFilters[activeTopic]) {
+                    topicFilters[activeTopic] = [];
+                }
+
+                if (currentParams.join('&') !== topicFilters[activeTopic].join('&')) {
+                    topicFilters[activeTopic] = currentParams.slice();
+                    topicCharts[activeTopic].forEach(function (fn) { fn(); });
+
+                    // Highcharts necesita recalcular su tamaño al mostrarse de nuevo.
+                    window.setTimeout(reflowCharts, 50);
+                }
             }
-
-            if(currentParams.length !== topicFilters[currentTopic].length || 
-                !currentParams.every((value, index) => value === topicFilters[currentTopic][index])){
-                topicFilters[currentTopic] = currentParams;
-                topicCharts[currentTopic].forEach(fn => fn());
-
-                // Highcharts necesita recalcular su tamaño al mostrarse de nuevo.
-                window.setTimeout(function () {
-                    if (window.Highcharts && Highcharts.charts) {
-                        Highcharts.charts.forEach(function (chart) {
-                            if (chart) chart.reflow();
-                        });
-                    }
-                }, 50);
-            }
-
-            
 
             $('.chart-topic').each(function () {
                 const topic = String($(this).data('topic'));
                 $(this).toggle(hasSelection && topic === String(activeTopic));
             });
-            
-            
+
+            window.setTimeout(reflowCharts, 50);
         }
 
-        function setTopicTotal(topic, total) {
-            const $total = $('#total-' + topic);
-            if ($total.length) {
-                $total.text(Number(total).toLocaleString('es-MX'));
+        function reflowCharts() {
+            if (window.Highcharts && Highcharts.charts) {
+                Highcharts.charts.forEach(function (chart) {
+                    if (chart) chart.reflow();
+                });
             }
         }
 
@@ -1016,7 +1289,7 @@
                 return;
             }
 
-            $('#region-filter, #municipio-filter, #unidades-investigacion-filter, #estado-filter, #usuario-filter, #periodo-filter').chosen({
+            $('#region-filter, #municipio-filter, #unidades-investigacion-filter, #usuario-filter, #periodo-filter').chosen({
                 width: '100%',
                 search_contains: true,
                 no_results_text: 'No se encontraron resultados'
@@ -1045,7 +1318,7 @@
         }
 
         function loadDenunciasRegiones() {
-            $.ajax({
+            return $.ajax({
                 url: '<?php echo base_url('estadisticas/getOficinasGestiones'); ?>',
                 type: 'GET',
                 dataType: 'json',
@@ -1056,6 +1329,7 @@
                     });
                     $('#region-filter').html(options);
                     refreshFilterChosen('#region-filter');
+                    restaurarFiltrosSelects(obtenerFiltrosGuardados());
                 },
                 error: function(xhr, status, error) {
                     console.error('Error al cargar oficinas:', error);
@@ -1066,7 +1340,7 @@
         }
 
         function loadDenunciasMunicipios() {
-            $.ajax({
+            return $.ajax({
                 url: '<?php echo base_url('estadisticas/getMunicipios'); ?>',
                 type: 'GET',
                 dataType: 'json',
@@ -1077,6 +1351,7 @@
                     });
                     $('#municipio-filter').html(options);
                     refreshFilterChosen('#municipio-filter');
+                    restaurarFiltrosSelects(obtenerFiltrosGuardados());
                 },
                 error: function(xhr, status, error) {
                     console.error('Error al cargar municipios:', error);
@@ -1087,7 +1362,7 @@
         }
 
         function loadDenunciasUnidades() {
-            $.ajax({
+            return $.ajax({
                 url: '<?php echo base_url('UnidadesInvestigacion/getUnidadesInvestigacion'); ?>',
                 type: 'GET',
                 dataType: 'json',
@@ -1098,6 +1373,7 @@
                     });
                     $('#unidades-investigacion-filter').html(options);
                     refreshFilterChosen('#unidades-investigacion-filter');
+                    restaurarFiltrosSelects(obtenerFiltrosGuardados());
                 },
                 error: function(xhr, status, error) {
                     console.error('Error al cargar unidades de investigación:', error);
@@ -1108,7 +1384,7 @@
         }
 
         function loadUsuariosMpDigital() {
-            $.ajax({
+            return $.ajax({
                 url: '<?php echo base_url('InformeEjecutivo/getUsuariosMpDigital'); ?>',
                 type: 'GET',
                 dataType: 'json',
@@ -1145,6 +1421,7 @@
                     });
                     $('#usuario-filter').html(options);
                     refreshFilterChosen('#usuario-filter');
+                    restaurarFiltrosSelects(obtenerFiltrosGuardados());
                 },
                 error: function(xhr, status, error) {
                     console.error('Error al cargar usuarios MP Digital:', error);
@@ -1154,1029 +1431,454 @@
             });
         }
 
-        function loadDenunciasChart() {
-            let url = '<?php echo base_url('InformeEjecutivo/getDenunciasPorInstrumento'); ?>';
-            if (currentParams.length > 0) url += '?' + currentParams.join('&');
+        function loadMetrica(key) {
+            const metrica = metricByKey(key);
 
-            $('#denuncias-table-container').html('<div class="text-center text-muted small py-3">Cargando...</div>');
-            showDashboardLoader();
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                    createDenunciasChart(response);
-                    hideDashboardLoader();
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error al cargar denuncias por instrumento:', error);
-                    $('#denuncias-table-container').html('<div class="text-center text-danger small py-3">No fue posible cargar la información.</div>');
-                    hideDashboardLoader();
-                }
-            });
-        }
-
-        function loadDetenidosChart() {
-            let url = '<?php echo base_url('InformeEjecutivo/getDetenidosPorRangoEdad'); ?>';
-            if (currentParams.length > 0) url += '?' + currentParams.join('&');
-
-            showDashboardLoader();
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                    createDetenidosChart(response);
-                    hideDashboardLoader();
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error al cargar detenidos por rango de edad:', error);
-                    hideDashboardLoader();
-                }
-            });
-        }
-
-        function loadDetenidosDelitosChart() {
-            let url = '<?php echo base_url('InformeEjecutivo/getDetenidosPorDelito'); ?>';
-            if (currentParams.length > 0) url += '?' + currentParams.join('&');
-
-            showDashboardLoader();
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                    createDetenidosDelitosChart(response);
-                    hideDashboardLoader();
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error al cargar detenidos por delito:', error);
-                    hideDashboardLoader();
-                }
-            });
-        }
-
-        function loadCateosCorporacionesChart() {
-            let url = '<?php echo base_url('InformeEjecutivo/getCateosPorCorporacion'); ?>';
-            if (currentParams.length > 0) url += '?' + currentParams.join('&');
-
-            showDashboardLoader();
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                    createCateosCorporacionesChart(response);
-                    hideDashboardLoader();
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error al cargar cateos por corporación:', error);
-                    hideDashboardLoader();
-                }
-            });
-        }
-
-        function loadCateosRegionesChart() {
-            let url = '<?php echo base_url('InformeEjecutivo/getCateosPorRegion'); ?>';
-            if (currentParams.length > 0) url += '?' + currentParams.join('&');
-
-            showDashboardLoader();
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                    createCateosRegionesChart(response);
-                    hideDashboardLoader();
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error al cargar cateos por región:', error);
-                    hideDashboardLoader();
-                }
-            });
-        }
-
-        function loadExpedientesChart() {
-            let url = '<?php echo base_url('InformeEjecutivo/getExpedientesPorUnidad'); ?>';
-            if (currentParams.length > 0) url += '?' + currentParams.join('&');
-
-            showDashboardLoader();
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                    createExpedientesChart(response);
-                    hideDashboardLoader();
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error al cargar expedientes por unidad:', error);
-                    hideDashboardLoader();
-                }
-            });
-        }
-
-        function loadMedidasChart() {
-            let url = '<?php echo base_url('InformeEjecutivo/getMedidasProteccionPorDelito'); ?>';
-            if (currentParams.length > 0) url += '?' + currentParams.join('&');
-
-            showDashboardLoader();
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                    createMedidasChart(response);
-                    hideDashboardLoader();
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error al cargar medidas de protección por delito:', error);
-                    hideDashboardLoader();
-                }
-            });
-        }
-
-        function loadBienesAseguradosChart() {
-            let url = '<?php echo base_url('InformeEjecutivo/getBienesAseguradosPorTipoObjeto'); ?>';
-            if (currentParams.length > 0) url += '?' + currentParams.join('&');
-
-            showDashboardLoader();
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                    createBienesAseguradosChart(response);
-                    hideDashboardLoader();
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error al cargar bienes asegurados por tipo de objeto:', error);
-                    hideDashboardLoader();
-                }
-            });
-        }
-
-        function loadDrogaChart() {
-            let url = '<?php echo base_url('InformeEjecutivo/getDrogaAseguradaPorUnidad'); ?>';
-            if (currentParams.length > 0) url += '?' + currentParams.join('&');
-
-            showDashboardLoader();
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                    createDrogaChart(response);
-                    hideDashboardLoader();
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error al cargar droga asegurada por unidad:', error);
-                    hideDashboardLoader();
-                }
-            });
-        }
-
-        function createDenunciasChart(instrumentData) {
-            const palette = ['#E74C3C', '#E67E22', '#F39C12', '#27AE60', '#1ABC9C',
-                             '#3498DB', '#9B59B6', '#34495E', '#95A5A6', '#7F8C8D'];
-
-            const seriesData = (instrumentData || []).map(function(item, index) {
-                return {
-                    name: item.instrumento,
-                    y: parseInt(item.total, 10) || 0,
-                    color: palette[index % palette.length]
-                };
-            });
-
-            const totalDenuncias = seriesData.reduce((sum, item) => sum + item.y, 0);
-            setTopicTotal('denuncias', totalDenuncias);
-
-            Highcharts.chart('denuncias-chart-container', {
-                chart: { type: 'bar', backgroundColor: 'transparent' },
-                title: {
-                    text: 'Denuncias por Instrumento',
-                    style: { fontSize: '16px', fontWeight: 'bold' }
-                },
-                subtitle: {
-                    text: seriesData.length
-                        ? 'Distribución según el instrumento del delito'
-                        : 'Sin información para los filtros seleccionados'
-                },
-                xAxis: {
-                    categories: seriesData.map(function(item) { return item.name; }),
-                    crosshair: true,
-                    labels: { style: { fontSize: '11px' } }
-                },
-                yAxis: {
-                    min: 0,
-                    title: { text: 'Cantidad de denuncias' }
-                },
-                legend: { enabled: false },
-                tooltip: {
-                    headerFormat: '<span style="font-size:14px;font-weight:bold">{point.key}</span><br/>',
-                    pointFormat: 'Denuncias: <b>{point.y:,.0f}</b>'
-                },
-                plotOptions: {
-                    bar: {
-                        borderRadius: 5,
-                        dataLabels: {
-                            enabled: true,
-                            format: '{point.y:,.0f}',
-                            style: { fontSize: '11px', fontWeight: 'bold' }
-                        }
-                    }
-                },
-                series: [{
-                    name: 'Denuncias',
-                    data: seriesData,
-                    colorByPoint: true
-                }],
-                credits: { enabled: false },
-                exporting: { enabled: true },
-                noData: { style: { fontWeight: 'normal', fontSize: '13px', color: '#666' } },
-                responsive: {
-                    rules: [{
-                        condition: { maxWidth: 575 },
-                        chartOptions: {
-                            chart: { height: 300 },
-                            title: { style: { fontSize: '14px' } },
-                            subtitle: { style: { fontSize: '10px' } },
-                            xAxis: {
-                                labels: { style: { fontSize: '9px' } }
-                            },
-                            yAxis: {
-                                title: { text: null },
-                                labels: { style: { fontSize: '9px' } }
-                            },
-                            plotOptions: {
-                                bar: {
-                                    dataLabels: { style: { fontSize: '9px' } }
-                                }
-                            }
-                        }
-                    }]
-                }
-            });
-
-            createDenunciasTable('denuncias-table-container', seriesData);
-        }
-
-        function createDenunciasTable(containerId, data, options) {
-            const config = options || {};
-            const categoryLabel = config.categoryLabel || 'Instrumento';
-            const countLabel = config.countLabel || 'Denuncias';
-
-            if (!data.length) {
-                document.getElementById(containerId).innerHTML =
-                    '<div class="text-center text-muted small py-3">Sin información para los filtros seleccionados.</div>';
+            if (!metrica) {
                 return;
             }
 
-            const total = data.reduce((sum, item) => sum + item.y, 0);
-            const maxValue = Math.max.apply(null, data.map(item => item.y));
+            let url = metrica.endpoint;
+            if (currentParams.length > 0) {
+                url += '?' + currentParams.join('&');
+            }
 
-            let tableHTML = `
-                <table class="chart-data-table">
-                    <thead>
-                        <tr>
-                            <th style="width: 20px;"></th>
-                            <th>${categoryLabel}</th>
-                            <th class="text-right">${countLabel}</th>
-                            <th class="text-right">%</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
+            showDashboardLoader();
 
-            data.forEach((item) => {
-                const percentage = total > 0 ? ((item.y / total) * 100).toFixed(1) : '0.0';
-                const isMax = item.y === maxValue;
-                const rowStyle = isMax ? 'background-color: #d4edda; font-weight: bold;' : '';
-                const color = item.color || '#95A5A6';
-                tableHTML += `
-                    <tr style="${rowStyle}">
-                        <td style="padding: 6px 4px;">
-                            <div style="width: 12px; height: 12px; background-color: ${color}; border-radius: 2px; display: inline-block;"></div>
-                        </td>
-                        <td>${item.name}${isMax ? ' ⭐' : ''}</td>
-                        <td class="text-right">${item.y.toLocaleString()}</td>
-                        <td class="text-right">${percentage}%</td>
-                    </tr>
-                `;
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json'
+            }).done(function (response) {
+                renderMetrica(metrica, response || {});
+            }).fail(function (xhr, status, error) {
+                console.error('Error al cargar ' + metrica.titulo + ':', error);
+                renderMetrica(metrica, {});
+            }).always(function () {
+                hideDashboardLoader();
             });
-
-            tableHTML += `
-                    </tbody>
-                    <tfoot>
-                        <tr style="font-weight: bold; background-color: #e9ecef;">
-                            <td></td>
-                            <td>Total</td>
-                            <td class="text-right">${total.toLocaleString()}</td>
-                            <td class="text-right">100.0%</td>
-                        </tr>
-                    </tfoot>
-                </table>
-            `;
-
-            document.getElementById(containerId).innerHTML = tableHTML;
         }
 
-        function createDetenidosChart(ageData) {
-            const rangeColors = {
-                '0-17': '#9B59B6',
-                '18-25': '#3498DB',
-                '26-35': '#1ABC9C',
-                '36-45': '#F39C12',
-                '46-60': '#E67E22',
-                '61+': '#E74C3C',
-                'Sin dato': '#95A5A6'
+        function renderMetrica(metrica, data) {
+            const unidad = data.unidad !== undefined ? data.unidad : metrica.unidad;
+
+            setKpi(metrica, 'total', data.total, unidad);
+            setKpi(metrica, 'activos', data.activos, unidad);
+            setKpi(metrica, 'concluidos', data.concluidos, unidad);
+
+            renderDimensionChart(metrica, 'delito', data.porDelito || [], 'treemap', unidad);
+            renderDimensionChart(metrica, 'region', data.porRegion || [], 'pie', unidad);
+            renderDimensionChart(metrica, 'municipio', data.porMunicipio || [], 'bar', unidad);
+            renderComparativaChart(metrica, data.comparativa || {}, unidad);
+        }
+
+        function setKpi(metrica, campo, valor, unidad) {
+            $('#kpi-' + metrica.key + '-' + campo).text(formatNumber(valor, unidad));
+        }
+
+        function formatNumber(valor, unidad) {
+            const numero = Number(valor) || 0;
+
+            if (unidad === 'kg') {
+                return numero.toLocaleString('es-MX', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 3
+                });
+            }
+
+            return Math.round(numero).toLocaleString('es-MX');
+        }
+
+        function renderDimensionChart(metrica, dimension, series, tipo, unidad) {
+            const containerId = 'chart-' + metrica.key + '-' + dimension;
+
+            const data = (series || []).map(function (item) {
+                return {
+                    name: item.name || 'Sin dato',
+                    y: Number(item.total) || 0
+                };
+            }).filter(function (item) {
+                return !esCategoriaSinDefinir(item.name, dimension);
+            });
+
+            const total = data.reduce(function (sum, item) { return sum + item.y; }, 0);
+            const porcentaje = function (valor) {
+                return total > 0 ? (valor / total) * 100 : 0;
             };
 
-            const seriesData = (ageData || []).map(function (item) {
-                return {
-                    name: item.rango,
-                    y: parseInt(item.total, 10) || 0,
-                    color: rangeColors[item.rango] || '#7F8C8D'
-                };
+            const etiquetasDimension = {
+                delito: 'Delito',
+                region: 'Región / Delegación',
+                municipio: 'Municipio'
+            };
+
+            createDimensionTable('table-' + metrica.key + '-' + dimension, data, {
+                categoria: etiquetasDimension[dimension] || 'Categoría',
+                unidad: unidad
             });
 
-            const totalDetenidos = seriesData.reduce((sum, item) => sum + item.y, 0);
-            setTopicTotal('detenidos', totalDetenidos);
-
-            createDenunciasTable('detenidos-table-container', seriesData, {
-                categoryLabel: 'Rango de edad',
-                countLabel: 'Detenidos'
-            });
-
-            Highcharts.chart('detenidos-chart-container', {
-                chart: { type: 'pie', backgroundColor: 'transparent' },
-                title: {
-                    text: 'Detenidos por Rango de Edad',
-                    style: { fontSize: '16px', fontWeight: 'bold' }
-                },
-                subtitle: {
-                    text: seriesData.length
-                        ? 'Distribución por grupos de edad'
-                        : 'Sin información para los filtros seleccionados'
-                },
-                tooltip: {
-                    pointFormat: '<b>{point.y:,.0f}</b> detenidos ({point.percentage:.1f}%)'
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        dataLabels: {
-                            enabled: true,
-                            format: '<b>{point.name}</b><br>{point.y:,.0f} ({point.percentage:.1f}%)',
-                            style: { fontSize: '11px' }
-                        }
-                    }
-                },
-                legend: {
-                    enabled: true,
-                    layout: 'horizontal',
-                    align: 'center',
-                    verticalAlign: 'bottom',
-                    itemStyle: { fontSize: '11px' }
-                },
-                series: [{
-                    name: 'Detenidos',
-                    colorByPoint: true,
-                    data: seriesData
-                }],
-                credits: { enabled: false },
-                exporting: { enabled: true },
-                noData: { style: { fontWeight: 'normal', fontSize: '13px', color: '#666' } },
-                responsive: {
-                    rules: [{
-                        condition: { maxWidth: 575 },
-                        chartOptions: {
-                            chart: { height: 320 },
-                            title: { style: { fontSize: '14px' } },
-                            subtitle: { style: { fontSize: '10px' } },
-                            plotOptions: {
-                                pie: {
-                                    dataLabels: {
-                                        distance: 12,
-                                        format: '<b>{point.name}</b>',
-                                        style: { fontSize: '9px' }
-                                    }
-                                }
-                            },
-                            legend: { itemStyle: { fontSize: '10px' } }
-                        }
-                    }]
-                }
-            });
-        }
-
-        function createDetenidosDelitosChart(delitoData) {
-            const palette = ['#E74C3C', '#E67E22', '#F39C12', '#27AE60', '#3498DB', '#95A5A6'];
-
-            const seriesData = (delitoData || []).map(function (item, index) {
-                return {
-                    name: item.delito,
-                    y: parseInt(item.total, 10) || 0,
-                    color: item.delito === 'Resto' ? '#95A5A6' : palette[index % palette.length]
-                };
-            });
-
-            createDenunciasTable('detenidos-delitos-table-container', seriesData, {
-                categoryLabel: 'Delito',
-                countLabel: 'Detenidos'
-            });
-
-            Highcharts.chart('detenidos-delitos-chart-container', {
-                chart: { type: 'pie', backgroundColor: 'transparent' },
-                title: {
-                    text: 'Detenidos por Delito',
-                    style: { fontSize: '16px', fontWeight: 'bold' }
-                },
-                subtitle: {
-                    text: seriesData.length
-                        ? 'Top 5 delitos con más registros y el resto'
-                        : 'Sin información para los filtros seleccionados'
-                },
-                tooltip: {
-                    pointFormat: '<b>{point.y:,.0f}</b> registros ({point.percentage:.1f}%)'
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        dataLabels: {
-                            enabled: true,
-                            format: '<b>{point.name}</b><br>{point.y:,.0f} ({point.percentage:.1f}%)',
-                            style: { fontSize: '11px' }
-                        }
-                    }
-                },
-                legend: {
-                    enabled: true,
-                    layout: 'horizontal',
-                    align: 'center',
-                    verticalAlign: 'bottom',
-                    itemStyle: { fontSize: '11px' }
-                },
-                series: [{
-                    name: 'Registros',
-                    colorByPoint: true,
-                    data: seriesData
-                }],
-                credits: { enabled: false },
-                exporting: { enabled: true },
-                noData: { style: { fontWeight: 'normal', fontSize: '13px', color: '#666' } },
-                responsive: {
-                    rules: [{
-                        condition: { maxWidth: 575 },
-                        chartOptions: {
-                            chart: { height: 320 },
-                            title: { style: { fontSize: '14px' } },
-                            subtitle: { style: { fontSize: '10px' } },
-                            plotOptions: {
-                                pie: {
-                                    dataLabels: {
-                                        distance: 12,
-                                        format: '<b>{point.name}</b>',
-                                        style: { fontSize: '9px' }
-                                    }
-                                }
-                            },
-                            legend: { itemStyle: { fontSize: '10px' } }
-                        }
-                    }]
-                }
-            });
-        }
-
-        function createCateosCorporacionesChart(corporacionData) {
-            const palette = ['#E74C3C', '#E67E22', '#F39C12', '#27AE60', '#1ABC9C',
-                             '#3498DB', '#9B59B6', '#34495E', '#95A5A6', '#7F8C8D'];
-
-            const seriesData = (corporacionData || []).map(function (item, index) {
-                return {
-                    name: item.corporacion,
-                    y: parseInt(item.total, 10) || 0,
-                    color: palette[index % palette.length]
-                };
-            });
-
-            createDenunciasTable('cateos-corporaciones-table-container', seriesData, {
-                categoryLabel: 'Corporación',
-                countLabel: 'Cateos'
-            });
-
-            Highcharts.chart('cateos-corporaciones-chart-container', {
-                chart: { type: 'bar', backgroundColor: 'transparent' },
-                title: {
-                    text: 'Cateos por Corporación',
-                    style: { fontSize: '16px', fontWeight: 'bold' }
-                },
-                subtitle: {
-                    text: seriesData.length
-                        ? 'Cateos en los que participó cada corporación'
-                        : 'Sin información para los filtros seleccionados'
-                },
-                xAxis: {
-                    categories: seriesData.map(function (item) { return item.name; }),
-                    crosshair: true,
-                    labels: { style: { fontSize: '11px' } }
-                },
-                yAxis: {
-                    min: 0,
-                    allowDecimals: false,
-                    title: { text: 'Cantidad de cateos' }
-                },
-                legend: { enabled: false },
-                tooltip: {
-                    headerFormat: '<span style="font-size:14px;font-weight:bold">{point.key}</span><br/>',
-                    pointFormat: 'Cateos: <b>{point.y:,.0f}</b>'
-                },
-                plotOptions: {
-                    bar: {
-                        borderRadius: 5,
-                        dataLabels: {
-                            enabled: true,
-                            format: '{point.y:,.0f}',
-                            style: { fontSize: '11px', fontWeight: 'bold' }
-                        }
-                    }
-                },
-                series: [{
-                    name: 'Cateos',
-                    colorByPoint: true,
-                    data: seriesData
-                }],
-                credits: { enabled: false },
-                exporting: { enabled: true },
-                noData: { style: { fontWeight: 'normal', fontSize: '13px', color: '#666' } },
-                responsive: {
-                    rules: [{
-                        condition: { maxWidth: 575 },
-                        chartOptions: {
-                            chart: { height: 320 },
-                            title: { style: { fontSize: '14px' } },
-                            subtitle: { style: { fontSize: '10px' } },
-                            xAxis: {
-                                labels: { style: { fontSize: '9px' } }
-                            },
-                            yAxis: {
-                                title: { text: null },
-                                labels: { style: { fontSize: '9px' } }
-                            },
-                            plotOptions: {
-                                bar: {
-                                    dataLabels: { style: { fontSize: '9px' } }
-                                }
-                            }
-                        }
-                    }]
-                }
-            });
-        }
-
-        function createCateosRegionesChart(regionData) {
-            const palette = ['#3498DB', '#1ABC9C', '#F39C12', '#E74C3C', '#9B59B6',
-                             '#E67E22', '#27AE60', '#34495E', '#95A5A6', '#7F8C8D'];
-
-            const seriesData = (regionData || []).map(function (item, index) {
-                return {
-                    name: item.region,
-                    y: parseInt(item.total, 10) || 0,
-                    color: palette[index % palette.length]
-                };
-            });
-
-            const totalCateos = seriesData.reduce((sum, item) => sum + item.y, 0);
-            setTopicTotal('cateos', totalCateos);
-
-            createDenunciasTable('cateos-regiones-table-container', seriesData, {
-                categoryLabel: 'Región',
-                countLabel: 'Cateos'
-            });
-
-            Highcharts.chart('cateos-regiones-chart-container', {
-                chart: { type: 'pie', backgroundColor: 'transparent' },
-                title: {
-                    text: 'Cateos por Región',
-                    style: { fontSize: '16px', fontWeight: 'bold' }
-                },
-                subtitle: {
-                    text: seriesData.length
-                        ? 'Distribución de cateos por región'
-                        : 'Sin información para los filtros seleccionados'
-                },
-                tooltip: {
-                    pointFormat: '<b>{point.y:,.0f}</b> cateos ({point.percentage:.1f}%)'
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        dataLabels: {
-                            enabled: true,
-                            format: '<b>{point.name}</b><br>{point.y:,.0f} ({point.percentage:.1f}%)',
-                            style: { fontSize: '11px' }
-                        }
-                    }
-                },
-                legend: {
-                    enabled: true,
-                    layout: 'horizontal',
-                    align: 'center',
-                    verticalAlign: 'bottom',
-                    itemStyle: { fontSize: '11px' }
-                },
-                series: [{
-                    name: 'Cateos',
-                    colorByPoint: true,
-                    data: seriesData
-                }],
-                credits: { enabled: false },
-                exporting: { enabled: true },
-                noData: { style: { fontWeight: 'normal', fontSize: '13px', color: '#666' } },
-                responsive: {
-                    rules: [{
-                        condition: { maxWidth: 575 },
-                        chartOptions: {
-                            chart: { height: 320 },
-                            title: { style: { fontSize: '14px' } },
-                            subtitle: { style: { fontSize: '10px' } },
-                            plotOptions: {
-                                pie: {
-                                    dataLabels: {
-                                        distance: 12,
-                                        format: '<b>{point.name}</b>',
-                                        style: { fontSize: '9px' }
-                                    }
-                                }
-                            },
-                            legend: { itemStyle: { fontSize: '10px' } }
-                        }
-                    }]
-                }
-            });
-        }
-
-        function createExpedientesChart(expedienteData) {
-            const palette = ['#3498DB', '#1ABC9C', '#F39C12', '#E74C3C', '#9B59B6',
-                             '#E67E22', '#27AE60', '#34495E', '#95A5A6', '#7F8C8D'];
-
-            const seriesData = (expedienteData || []).map(function (item, index) {
-                return {
-                    name: item.unidad,
-                    value: parseInt(item.total, 10) || 0,
-                    color: palette[index % palette.length]
-                };
-            });
-
-            const totalExpedientes = seriesData.reduce((sum, item) => sum + item.value, 0);
-            setTopicTotal('expedientes', totalExpedientes);
-
-            createDenunciasTable('expedientes-table-container', seriesData.map(function (item) {
-                return { name: item.name, y: item.value, color: item.color };
-            }), {
-                categoryLabel: 'Unidad de investigación',
-                countLabel: 'Expedientes'
-            });
-
-            const chartHeight = seriesData.length > 12 ? 520 : 420;
-
-            Highcharts.chart('expedientes-chart-container', {
-                chart: {
-                    type: 'treemap',
-                    height: chartHeight,
-                    backgroundColor: 'transparent'
-                },
-                title: {
-                    text: 'Expedientes por Unidad de Investigación',
-                    style: { fontSize: '16px', fontWeight: 'bold' }
-                },
-                subtitle: {
-                    text: seriesData.length
-                        ? 'Distribución de expedientes según la unidad que los registró'
-                        : 'Sin información para los filtros seleccionados'
-                },
-                tooltip: {
-                    pointFormat: '<b>{point.value:,.0f}</b> expedientes'
-                },
-                series: [{
-                    type: 'treemap',
-                    name: 'Expedientes',
-                    colorByPoint: true,
-                    layoutAlgorithm: 'squarified',
-                    data: seriesData,
-                    dataLabels: {
-                        enabled: true,
-                        format: '<b>{point.name}</b><br>{point.value:,.0f}',
-                        style: { fontSize: '11px', textOutline: 'none' }
+            if (tipo === 'pie') {
+                Highcharts.chart(containerId, {
+                    chart: { type: 'pie', backgroundColor: 'transparent', height: 360 },
+                    title: { text: null },
+                    colors: PALETA,
+                    lang: { noData: 'Sin información para los filtros seleccionados' },
+                    tooltip: {
+                        pointFormat: '<b>{point.name}</b><br>{point.percentage:.1f}%'
                     },
-                    levels: [{
-                        level: 1,
-                        borderWidth: 3,
-                        dataLabels: {
-                            enabled: true,
-                            align: 'left',
-                            verticalAlign: 'top'
-                        }
-                    }]
-                }],
-                credits: { enabled: false },
-                exporting: { enabled: true },
-                noData: { style: { fontWeight: 'normal', fontSize: '13px', color: '#666' } },
-                responsive: {
-                    rules: [{
-                        condition: { maxWidth: 575 },
-                        chartOptions: {
-                            title: { style: { fontSize: '14px' } },
-                            subtitle: { style: { fontSize: '10px' } },
-                            series: [{
-                                dataLabels: { style: { fontSize: '9px' } }
-                            }]
-                        }
-                    }]
-                }
-            });
-        }
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            size: '95%',
+                            borderWidth: 1,
+                            borderColor: '#ffffff',
+                            dataLabels: {
+                                enabled: true,
+                                distance: -30,
+                                formatter: function () {
+                                    const pct = total > 0 ? (this.point.y / total) * 100 : 0;
+                                    const nombre = this.point.name || '';
 
-        function createMedidasChart(medidaData) {
-            const palette = ['#E74C3C', '#E67E22', '#F39C12', '#27AE60', '#1ABC9C',
-                             '#3498DB', '#9B59B6', '#34495E', '#95A5A6', '#7F8C8D'];
-
-            const seriesData = (medidaData || []).map(function (item, index) {
-                return {
-                    name: item.delito,
-                    y: parseInt(item.total, 10) || 0,
-                    color: palette[index % palette.length]
-                };
-            });
-
-            const totalMedidas = seriesData.reduce((sum, item) => sum + item.y, 0);
-            setTopicTotal('medidas', totalMedidas);
-
-            createDenunciasTable('medidas-table-container', seriesData, {
-                categoryLabel: 'Delito',
-                countLabel: 'Medidas'
-            });
-
-            const chartHeight = Math.max(380, seriesData.length * 30 + 140);
-
-            Highcharts.chart('medidas-chart-container', {
-                chart: {
-                    type: 'bar',
-                    height: chartHeight,
-                    backgroundColor: 'transparent'
-                },
-                title: {
-                    text: 'Medidas de Protección por Delito',
-                    style: { fontSize: '16px', fontWeight: 'bold' }
-                },
-                subtitle: {
-                    text: seriesData.length
-                        ? 'Distribución de medidas de protección según el delito principal'
-                        : 'Sin información para los filtros seleccionados'
-                },
-                xAxis: {
-                    categories: seriesData.map(function (item) { return item.name; }),
-                    crosshair: true,
-                    labels: { style: { fontSize: '11px' } }
-                },
-                yAxis: {
-                    min: 0,
-                    allowDecimals: false,
-                    title: { text: 'Cantidad de medidas' }
-                },
-                legend: { enabled: false },
-                tooltip: {
-                    headerFormat: '<span style="font-size:14px;font-weight:bold">{point.key}</span><br/>',
-                    pointFormat: 'Medidas: <b>{point.y:,.0f}</b>'
-                },
-                plotOptions: {
-                    bar: {
-                        borderRadius: 5,
-                        dataLabels: {
-                            enabled: true,
-                            format: '{point.y:,.0f}',
-                            style: { fontSize: '11px', fontWeight: 'bold' }
-                        }
-                    }
-                },
-                series: [{
-                    name: 'Medidas de protección',
-                    colorByPoint: true,
-                    data: seriesData
-                }],
-                credits: { enabled: false },
-                exporting: { enabled: true },
-                noData: { style: { fontWeight: 'normal', fontSize: '13px', color: '#666' } },
-                responsive: {
-                    rules: [{
-                        condition: { maxWidth: 575 },
-                        chartOptions: {
-                            title: { style: { fontSize: '14px' } },
-                            subtitle: { style: { fontSize: '10px' } },
-                            xAxis: {
-                                labels: { style: { fontSize: '9px' } }
-                            },
-                            yAxis: {
-                                title: { text: null },
-                                labels: { style: { fontSize: '9px' } }
-                            },
-                            plotOptions: {
-                                bar: {
-                                    dataLabels: { style: { fontSize: '9px' } }
-                                }
-                            }
-                        }
-                    }]
-                }
-            });
-        }
-
-        function createBienesAseguradosChart(bienData) {
-            const typeColors = {
-                'Vehículo': '#3498DB',
-                'Arma': '#E74C3C',
-                'Narcótico': '#9B59B6',
-                'Otro': '#95A5A6'
-            };
-
-            const seriesData = (bienData || []).map(function (item) {
-                return {
-                    name: item.tipo_objeto,
-                    y: parseInt(item.total, 10) || 0,
-                    color: typeColors[item.tipo_objeto] || '#7F8C8D'
-                };
-            });
-
-            const totalBienes = seriesData.reduce((sum, item) => sum + item.y, 0);
-            setTopicTotal('bienes', totalBienes);
-
-            createDenunciasTable('bienes-table-container', seriesData, {
-                categoryLabel: 'Tipo de objeto',
-                countLabel: 'Bienes'
-            });
-
-            Highcharts.chart('bienes-chart-container', {
-                chart: { type: 'bar', backgroundColor: 'transparent' },
-                title: {
-                    text: 'Bienes Asegurados por Tipo de Objeto',
-                    style: { fontSize: '16px', fontWeight: 'bold' }
-                },
-                subtitle: {
-                    text: seriesData.length
-                        ? 'Distribución de los objetos asegurados según su tipo'
-                        : 'Sin información para los filtros seleccionados'
-                },
-                xAxis: {
-                    categories: seriesData.map(function (item) { return item.name; }),
-                    crosshair: true,
-                    labels: { style: { fontSize: '11px' } }
-                },
-                yAxis: {
-                    min: 0,
-                    allowDecimals: false,
-                    title: { text: 'Cantidad de bienes' }
-                },
-                legend: { enabled: false },
-                tooltip: {
-                    headerFormat: '<span style="font-size:14px;font-weight:bold">{point.key}</span><br/>',
-                    pointFormat: 'Bienes: <b>{point.y:,.0f}</b>'
-                },
-                plotOptions: {
-                    bar: {
-                        borderRadius: 5,
-                        dataLabels: {
-                            enabled: true,
-                            format: '{point.y:,.0f}',
-                            style: { fontSize: '11px', fontWeight: 'bold' }
-                        }
-                    }
-                },
-                series: [{
-                    name: 'Bienes asegurados',
-                    colorByPoint: true,
-                    data: seriesData
-                }],
-                credits: { enabled: false },
-                exporting: { enabled: true },
-                noData: { style: { fontWeight: 'normal', fontSize: '13px', color: '#666' } },
-                responsive: {
-                    rules: [{
-                        condition: { maxWidth: 575 },
-                        chartOptions: {
-                            chart: { height: 320 },
-                            title: { style: { fontSize: '14px' } },
-                            subtitle: { style: { fontSize: '10px' } },
-                            xAxis: {
-                                labels: { style: { fontSize: '9px' } }
-                            },
-                            yAxis: {
-                                title: { text: null },
-                                labels: { style: { fontSize: '9px' } }
-                            },
-                            plotOptions: {
-                                bar: {
-                                    dataLabels: { style: { fontSize: '9px' } }
-                                }
-                            }
-                        }
-                    }]
-                }
-            });
-        }
-
-        function createDrogaChart(drogaData) {
-            const palette = ['#9B59B6', '#3498DB', '#1ABC9C', '#F39C12', '#E74C3C',
-                             '#E67E22', '#27AE60', '#34495E', '#95A5A6', '#7F8C8D'];
-
-            const seriesData = (drogaData || []).map(function (item, index) {
-                return {
-                    name: item.unidad,
-                    y: parseFloat(item.total) || 0,
-                    color: palette[index % palette.length]
-                };
-            });
-
-            const totalDroga = seriesData.reduce((sum, item) => sum + item.y, 0);
-            setTopicTotal('droga', totalDroga);
-
-            createDenunciasTable('droga-table-container', seriesData, {
-                categoryLabel: 'Unidad de investigación',
-                countLabel: 'Droga (kg)'
-            });
-
-            Highcharts.chart('droga-chart-container', {
-                chart: { type: 'pie', backgroundColor: 'transparent' },
-                title: {
-                    text: 'Droga Asegurada por Unidad de Investigación',
-                    style: { fontSize: '16px', fontWeight: 'bold' }
-                },
-                subtitle: {
-                    text: seriesData.length
-                        ? 'Peso de narcóticos asegurados (kilogramos)'
-                        : 'Sin información para los filtros seleccionados'
-                },
-                tooltip: {
-                    pointFormat: '<b>{point.y:,.3f} kg</b> ({point.percentage:.1f}%)'
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        dataLabels: {
-                            enabled: true,
-                            format: '<b>{point.name}</b><br>{point.y:,.3f} kg ({point.percentage:.1f}%)',
-                            style: { fontSize: '11px' }
-                        }
-                    }
-                },
-                legend: {
-                    enabled: true,
-                    layout: 'horizontal',
-                    align: 'center',
-                    verticalAlign: 'bottom',
-                    itemStyle: { fontSize: '11px' }
-                },
-                series: [{
-                    name: 'Droga asegurada',
-                    colorByPoint: true,
-                    data: seriesData
-                }],
-                credits: { enabled: false },
-                exporting: { enabled: true },
-                noData: { style: { fontWeight: 'normal', fontSize: '13px', color: '#666' } },
-                responsive: {
-                    rules: [{
-                        condition: { maxWidth: 575 },
-                        chartOptions: {
-                            chart: { height: 320 },
-                            title: { style: { fontSize: '14px' } },
-                            subtitle: { style: { fontSize: '10px' } },
-                            plotOptions: {
-                                pie: {
-                                    dataLabels: {
-                                        distance: 12,
-                                        format: '<b>{point.name}</b>',
-                                        style: { fontSize: '9px' }
+                                    if (pct >= 12 && nombre.length <= 12) {
+                                        return '<b>' + nombre + '</b><br>' + pct.toFixed(1) + '%';
                                     }
+
+                                    if (pct >= 5) {
+                                        return pct.toFixed(1) + '%';
+                                    }
+
+                                    return '';
+                                },
+                                style: {
+                                    fontSize: '9px',
+                                    fontWeight: '600',
+                                    color: '#ffffff',
+                                    textOutline: '1px rgba(0,0,0,.5)'
                                 }
                             },
-                            legend: { itemStyle: { fontSize: '10px' } }
+                            showInLegend: false
                         }
-                    }]
-                }
+                    },
+                    legend: { enabled: false },
+                    series: [{
+                        name: metrica.titulo,
+                        colorByPoint: true,
+                        data: data
+                    }],
+                    credits: { enabled: false },
+                    exporting: { enabled: true },
+                    noData: { style: { fontWeight: 'normal', fontSize: '13px', color: '#666' } }
+                });
+
+                createPieLegend('legend-' + metrica.key + '-region', data, total);
+
+                return;
+            }
+
+            if (tipo === 'treemap') {
+                Highcharts.chart(containerId, {
+                    chart: { type: 'treemap', backgroundColor: 'transparent', height: 360 },
+                    title: { text: null },
+                    colors: PALETA,
+                    lang: { noData: 'Sin información para los filtros seleccionados' },
+                    tooltip: {
+                        headerFormat: '',
+                        pointFormat: '<b>{point.name}</b><br>{point.value:.1f}%'
+                    },
+                    series: [{
+                        type: 'treemap',
+                        name: metrica.titulo,
+                        colorByPoint: true,
+                        layoutAlgorithm: 'squarified',
+                        data: data.map(function (item) {
+                            return { name: item.name, value: Number(porcentaje(item.y).toFixed(3)) };
+                        }),
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b><br>{point.value:.1f}%',
+                            style: { fontSize: '10px', textOutline: 'none' }
+                        },
+                        levels: [{
+                            level: 1,
+                            borderWidth: 2,
+                            dataLabels: {
+                                enabled: true,
+                                align: 'left',
+                                verticalAlign: 'top'
+                            }
+                        }]
+                    }],
+                    credits: { enabled: false },
+                    exporting: { enabled: true },
+                    noData: { style: { fontWeight: 'normal', fontSize: '13px', color: '#666' } }
+                });
+
+                return;
+            }
+
+            Highcharts.chart(containerId, {
+                chart: { type: 'bar', backgroundColor: 'transparent', height: 360 },
+                title: { text: null },
+                colors: PALETA,
+                lang: { noData: 'Sin información para los filtros seleccionados' },
+                xAxis: {
+                    categories: data.map(function (item) { return item.name; }),
+                    crosshair: true,
+                    labels: { style: { fontSize: '10px' } }
+                },
+                yAxis: {
+                    min: 0,
+                    allowDecimals: true,
+                    title: { text: null },
+                    labels: { format: '{value}%', style: { fontSize: '10px' } }
+                },
+                legend: { enabled: false },
+                tooltip: {
+                    headerFormat: '<span style="font-size:13px;font-weight:bold">{point.key}</span><br/>',
+                    pointFormat: 'Porcentaje: <b>{point.y:.1f}%</b>'
+                },
+                plotOptions: {
+                    bar: {
+                        borderRadius: 5,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y:.1f}%',
+                            style: { fontSize: '10px', fontWeight: 'bold' }
+                        }
+                    }
+                },
+                series: [{
+                    name: metrica.titulo,
+                    colorByPoint: true,
+                    data: data.map(function (item) {
+                        return { name: item.name, y: Number(porcentaje(item.y).toFixed(3)) };
+                    })
+                }],
+                credits: { enabled: false },
+                exporting: { enabled: true },
+                noData: { style: { fontWeight: 'normal', fontSize: '13px', color: '#666' } }
             });
+        }
+
+        function createPieLegend(containerId, data, total) {
+            const container = document.getElementById(containerId);
+
+            if (!container) {
+                return;
+            }
+
+            if (!data || !data.length) {
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = data.map(function (item, index) {
+                const pct = total > 0 ? (item.y / total) * 100 : 0;
+                const nombre = escapeHtml(item.name);
+                const nombreAttr = nombre.replace(/"/g, '&quot;');
+
+                return '<div class="pie-legend-item">'
+                    + '<span class="pie-legend-dot" style="background-color:' + PALETA[index % PALETA.length] + ';"></span>'
+                    + '<span class="pie-legend-name" title="' + nombreAttr + '">' + nombre + '</span>'
+                    + '<span class="pie-legend-value">' + pct.toFixed(1) + '%</span>'
+                    + '</div>';
+            }).join('');
+        }
+
+        function esCategoriaSinDefinir(nombre, dimension) {
+            if (dimension !== 'delito' && dimension !== 'municipio') {
+                return false;
+            }
+
+            const valor = String(nombre || '').trim().toLowerCase();
+            const excluidas = dimension === 'delito'
+                ? ['sin delito', 'sin dato']
+                : ['sin municipio', 'sin dato'];
+
+            return excluidas.indexOf(valor) !== -1;
+        }
+
+        function createDimensionTable(containerId, data, options) {
+            const container = document.getElementById(containerId);
+
+            if (!container) {
+                return;
+            }
+
+            const config    = options || {};
+            const categoria = config.categoria || 'Categoría';
+            const esPeso    = config.unidad === 'kg';
+
+            if (!data || !data.length) {
+                container.innerHTML = '<div class="text-center text-muted small py-3">Sin información para los filtros seleccionados.</div>';
+                return;
+            }
+
+            const total  = data.reduce(function (sum, item) { return sum + (Number(item.y) || 0); }, 0);
+            const maximo = Math.max.apply(null, data.map(function (item) { return item.y; }));
+
+            let html = '<table class="chart-data-table">'
+                + '<thead><tr>'
+                + '<th style="width:20px;"></th>'
+                + '<th>' + categoria + '</th>'
+                + '<th class="text-right">' + (esPeso ? 'Total (kg)' : 'Total') + '</th>'
+                + '<th class="text-right">%</th>'
+                + '</tr></thead><tbody>';
+
+            data.forEach(function (item, index) {
+                const porcentaje = total > 0 ? ((item.y / total) * 100).toFixed(1) : '0.0';
+                const esMaximo   = item.y === maximo;
+                const estiloFila = esMaximo ? 'background-color:#d4edda;font-weight:bold;' : '';
+                const color      = PALETA[index % PALETA.length];
+
+                html += '<tr style="' + estiloFila + '">'
+                    + '<td style="padding:6px 4px;"><div style="width:12px;height:12px;background-color:' + color + ';border-radius:2px;display:inline-block;"></div></td>'
+                    + '<td>' + escapeHtml(item.name) + (esMaximo ? ' ⭐' : '') + '</td>'
+                    + '<td class="text-right">' + formatNumber(item.y, config.unidad) + '</td>'
+                    + '<td class="text-right">' + porcentaje + '%</td>'
+                    + '</tr>';
+            });
+
+            html += '</tbody>'
+                + '<tfoot><tr style="font-weight:bold;background-color:#e9ecef;">'
+                + '<td></td>'
+                + '<td>Total</td>'
+                + '<td class="text-right">' + formatNumber(total, config.unidad) + '</td>'
+                + '<td class="text-right">100.0%</td>'
+                + '</tr></tfoot></table>';
+
+            container.innerHTML = html;
+        }
+
+        function escapeHtml(value) {
+            return $('<div>').text(value == null ? '' : String(value)).html();
+        }
+
+        function renderComparativaChart(metrica, comparativa, unidad) {
+            const containerId = 'chart-' + metrica.key + '-comparativa';
+            const esPeso = unidad === 'kg';
+            const formatoValor = esPeso ? '{point.y:,.3f} kg' : '{point.y:,.0f}';
+            const actual = Number(comparativa.actual) || 0;
+            const anterior = (comparativa.anterior === null || comparativa.anterior === undefined)
+                ? null
+                : (Number(comparativa.anterior) || 0);
+
+            const categorias = ['Periodo actual'];
+            const valores = [{ y: actual, color: '#0d6efd' }];
+
+            if (anterior !== null) {
+                categorias.push('Periodo anterior');
+                valores.push({ y: anterior, color: '#adb5bd' });
+            }
+
+            const subtitulo = anterior === null
+                ? 'Histórico: no existe un periodo anterior comparable'
+                : (comparativa.etiquetaActual || 'Periodo actual') + ' vs ' + (comparativa.etiquetaAnterior || 'Periodo anterior');
+
+            Highcharts.chart(containerId, {
+                chart: { type: 'column', backgroundColor: 'transparent', height: 360 },
+                title: { text: null },
+                subtitle: { text: subtitulo, style: { fontSize: '10px' } },
+                lang: { noData: 'Sin información para los filtros seleccionados' },
+                xAxis: {
+                    categories: categorias,
+                    labels: { style: { fontSize: '11px' } }
+                },
+                yAxis: {
+                    min: 0,
+                    allowDecimals: esPeso,
+                    title: { text: null },
+                    labels: { style: { fontSize: '10px' } }
+                },
+                legend: { enabled: false },
+                tooltip: {
+                    headerFormat: '<span style="font-size:13px;font-weight:bold">{point.key}</span><br/>',
+                    pointFormat: 'Total: <b>' + formatoValor + '</b>'
+                },
+                plotOptions: {
+                    column: {
+                        borderRadius: 5,
+                        dataLabels: {
+                            enabled: true,
+                            format: formatoValor,
+                            style: { fontSize: '11px', fontWeight: 'bold' }
+                        }
+                    }
+                },
+                series: [{
+                    name: metrica.titulo,
+                    colorByPoint: true,
+                    data: valores
+                }],
+                credits: { enabled: false },
+                exporting: { enabled: true },
+                noData: { style: { fontWeight: 'normal', fontSize: '13px', color: '#666' } }
+            });
+
+            renderVariacionCard(metrica, comparativa, unidad);
+        }
+
+        function renderVariacionCard(metrica, comparativa, unidad) {
+            const container = document.getElementById('variacion-' + metrica.key);
+
+            if (!container) {
+                return;
+            }
+
+            const actual = Number(comparativa.actual) || 0;
+            const anterior = (comparativa.anterior === null || comparativa.anterior === undefined)
+                ? null
+                : (Number(comparativa.anterior) || 0);
+
+            if (anterior === null) {
+                container.innerHTML = '<div class="card border-0 bg-secondary-subtle">'
+                    + '<div class="card-body d-flex align-items-center gap-3 py-2">'
+                    + '<i class="ri-history-line fs-3 text-secondary"></i>'
+                    + '<div>'
+                    + '<p class="text-muted mb-0 small text-uppercase">Variación vs periodo anterior</p>'
+                    + '<p class="mb-0 text-secondary">Histórico: no existe un periodo anterior comparable.</p>'
+                    + '</div>'
+                    + '</div>'
+                    + '</div>';
+                return;
+            }
+
+            const diferencia = actual - anterior;
+            const subio = diferencia > 0;
+            const bajo = diferencia < 0;
+            const color = subio ? 'success' : (bajo ? 'danger' : 'secondary');
+            const icono = subio ? 'arrow-up-line' : (bajo ? 'arrow-down-line' : 'subtract-line');
+            const signo = subio ? '+' : (bajo ? '-' : '');
+            const titulo = subio
+                ? 'Aumentó vs periodo anterior'
+                : (bajo ? 'Disminuyó vs periodo anterior' : 'Sin variación vs periodo anterior');
+
+            const porcentaje = anterior > 0
+                ? (diferencia / anterior) * 100
+                : (diferencia === 0 ? 0 : null);
+            const porcentajeTexto = porcentaje === null
+                ? 'N/A'
+                : signo + Math.abs(porcentaje).toLocaleString('es-MX', {
+                    minimumFractionDigits: 1,
+                    maximumFractionDigits: 1
+                }) + '%';
+            const diferenciaTexto = signo + formatNumber(Math.abs(diferencia), unidad)
+                + (unidad === 'kg' ? ' kg' : '');
+
+            container.innerHTML = '<div class="card border-0 bg-' + color + '-subtle">'
+                + '<div class="card-body d-flex align-items-center justify-content-between gap-3 py-2">'
+                + '<div>'
+                + '<p class="text-muted mb-1 small text-uppercase">' + titulo + '</p>'
+                + '<h4 class="mb-0 text-' + color + '">' + porcentajeTexto
+                + ' <span class="fs-6">(' + diferenciaTexto + ')</span></h4>'
+                + '<p class="mb-0 text-muted small">Actual: ' + formatNumber(actual, unidad)
+                + (unidad === 'kg' ? ' kg' : '') + ' · Anterior: ' + formatNumber(anterior, unidad)
+                + (unidad === 'kg' ? ' kg' : '') + '</p>'
+                + '</div>'
+                + '<i class="ri-' + icono + ' fs-3 text-' + color + '"></i>'
+                + '</div>'
+                + '</div>';
         }
     </script>
 </body>

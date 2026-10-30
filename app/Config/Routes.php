@@ -54,15 +54,13 @@ $routes->group('UnidadesInvestigacion', static function ($routes) {
 
 $routes->group('InformeEjecutivo', static function ($routes) {
     $routes->get('/', 'InformeEjecutivo::index');
-    $routes->get('getDenunciasPorInstrumento', 'InformeEjecutivo::getDenunciasPorInstrumento');
-    $routes->get('getDetenidosPorRangoEdad', 'InformeEjecutivo::getDetenidosPorRangoEdad');
-    $routes->get('getDetenidosPorDelito', 'InformeEjecutivo::getDetenidosPorDelito');
-    $routes->get('getCateosPorCorporacion', 'InformeEjecutivo::getCateosPorCorporacion');
-    $routes->get('getCateosPorRegion', 'InformeEjecutivo::getCateosPorRegion');
-    $routes->get('getExpedientesPorUnidad', 'InformeEjecutivo::getExpedientesPorUnidad');
-    $routes->get('getMedidasProteccionPorDelito', 'InformeEjecutivo::getMedidasProteccionPorDelito');
-    $routes->get('getBienesAseguradosPorTipoObjeto', 'InformeEjecutivo::getBienesAseguradosPorTipoObjeto');
-    $routes->get('getDrogaAseguradaPorUnidad', 'InformeEjecutivo::getDrogaAseguradaPorUnidad');
+    $routes->get('getDenuncias', 'InformeEjecutivo::getDenuncias');
+    $routes->get('getDetenidos', 'InformeEjecutivo::getDetenidos');
+    $routes->get('getCateos', 'InformeEjecutivo::getCateos');
+    $routes->get('getExpedientes', 'InformeEjecutivo::getExpedientes');
+    $routes->get('getMedidas', 'InformeEjecutivo::getMedidas');
+    $routes->get('getBienes', 'InformeEjecutivo::getBienes');
+    $routes->get('getDroga', 'InformeEjecutivo::getDroga');
     $routes->get('getUsuariosMpDigital', 'InformeEjecutivo::getUsuariosMpDigital');
 });
 

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\InformeEjecutivoModel;
+use DateTimeImmutable;
 
 class InformeEjecutivo extends MyController
 {
@@ -18,67 +19,39 @@ class InformeEjecutivo extends MyController
         return $this->render('informe_ejecutivo_view');
     }
 
-    public function getDenunciasPorInstrumento()
+    public function getDenuncias()
     {
-        return $this->response->setJSON(
-            $this->informeEjecutivoModel->getDenunciasPorInstrumento($this->getFiltrosComunes())
-        );
+        return $this->responderMetrica('denuncias');
     }
 
-    public function getDetenidosPorRangoEdad()
+    public function getDetenidos()
     {
-        return $this->response->setJSON(
-            $this->informeEjecutivoModel->getDetenidosPorRangoEdad($this->getFiltrosComunes())
-        );
+        return $this->responderMetrica('detenidos');
     }
 
-    public function getDetenidosPorDelito()
+    public function getCateos()
     {
-        return $this->response->setJSON(
-            $this->informeEjecutivoModel->getDetenidosPorDelito($this->getFiltrosComunes())
-        );
+        return $this->responderMetrica('cateos');
     }
 
-    public function getCateosPorCorporacion()
+    public function getExpedientes()
     {
-        return $this->response->setJSON(
-            $this->informeEjecutivoModel->getCateosPorCorporacion($this->getFiltrosComunes())
-        );
+        return $this->responderMetrica('expedientes');
     }
 
-    public function getCateosPorRegion()
+    public function getMedidas()
     {
-        return $this->response->setJSON(
-            $this->informeEjecutivoModel->getCateosPorRegion($this->getFiltrosComunes())
-        );
+        return $this->responderMetrica('medidas');
     }
 
-    public function getExpedientesPorUnidad()
+    public function getBienes()
     {
-        return $this->response->setJSON(
-            $this->informeEjecutivoModel->getExpedientesPorUnidad($this->getFiltrosComunes())
-        );
+        return $this->responderMetrica('bienes');
     }
 
-    public function getMedidasProteccionPorDelito()
+    public function getDroga()
     {
-        return $this->response->setJSON(
-            $this->informeEjecutivoModel->getMedidasProteccionPorDelito($this->getFiltrosComunes())
-        );
-    }
-
-    public function getBienesAseguradosPorTipoObjeto()
-    {
-        return $this->response->setJSON(
-            $this->informeEjecutivoModel->getBienesAseguradosPorTipoObjeto($this->getFiltrosComunes())
-        );
-    }
-
-    public function getDrogaAseguradaPorUnidad()
-    {
-        return $this->response->setJSON(
-            $this->informeEjecutivoModel->getDrogaAseguradaPorUnidad($this->getFiltrosComunes())
-        );
+        return $this->responderMetrica('droga');
     }
 
     public function getUsuariosMpDigital()
@@ -88,16 +61,99 @@ class InformeEjecutivo extends MyController
         );
     }
 
+    private function responderMetrica(string $metrica)
+    {
+        return $this->response->setJSON(
+            $this->informeEjecutivoModel->getMetrica($metrica, $this->getFiltrosComunes())
+        );
+    }
+
+    /**
+     * Construye los filtros comunes y las ventanas de fecha.
+     *
+     * Para la gráfica comparativa se calcula el periodo inmediatamente
+     * anterior con la misma duración que el periodo seleccionado.
+     */
     private function getFiltrosComunes(): array
     {
-        return [
-            'fechaInicio' => trim((string) $this->request->getGet('fechaInicio')),
-            'fechaFin'    => trim((string) $this->request->getGet('fechaFin')),
-            'region'      => trim((string) $this->request->getGet('region')),
-            'municipio'   => trim((string) $this->request->getGet('municipio')),
-            'unidad'      => trim((string) $this->request->getGet('unidad')),
-            'estado'      => trim((string) $this->request->getGet('estado')),
-            'usuario'     => trim((string) $this->request->getGet('usuario')),
+        $periodo     = trim((string) $this->request->getGet('periodo'));
+        $fechaInicio = $this->normalizarFecha((string) $this->request->getGet('fechaInicio'));
+        $fechaFin    = $this->normalizarFecha((string) $this->request->getGet('fechaFin'));
+        $esHistorico = $periodo === 'historico';
+
+        $filtros = [
+            'periodo'             => $periodo,
+            'historico'           => $esHistorico,
+            'region'              => trim((string) $this->request->getGet('region')),
+            'municipio'           => trim((string) $this->request->getGet('municipio')),
+            'unidad'              => trim((string) $this->request->getGet('unidad')),
+            'usuario'             => trim((string) $this->request->getGet('usuario')),
+            'fechaInicio'         => '',
+            'fechaFin'            => '',
+            'fechaInicioAnterior' => '',
+            'fechaFinAnterior'    => '',
+            'etiquetaActual'      => 'Histórico completo',
+            'etiquetaAnterior'    => '',
         ];
+
+        if ($esHistorico) {
+            return $filtros;
+        }
+
+        $hoy = new DateTimeImmutable('today');
+
+        if ($periodo === 'custom' && $fechaInicio !== null && $fechaFin !== null) {
+            $inicio = new DateTimeImmutable($fechaInicio);
+            $fin    = new DateTimeImmutable($fechaFin);
+        } else {
+            $fin = $hoy;
+
+            switch ($periodo) {
+                case 'lastweek':
+                    $inicio = $hoy->modify('-7 days');
+                    break;
+                case 'yeartodate':
+                    $inicio = $hoy->setDate((int) $hoy->format('Y'), 1, 1);
+                    break;
+                case 'lastmonth':
+                default:
+                    $inicio = $hoy->modify('-30 days');
+                    break;
+            }
+        }
+
+        if ($fin < $inicio) {
+            [$inicio, $fin] = [$fin, $inicio];
+        }
+
+        $duracion    = $inicio->diff($fin)->days + 1;
+        $finAnterior = $inicio->modify('-1 day');
+        $inicioAnterior = $finAnterior->modify('-' . ($duracion - 1) . ' days');
+
+        $filtros['fechaInicio']         = $inicio->format('Y-m-d');
+        $filtros['fechaFin']            = $fin->format('Y-m-d');
+        $filtros['fechaInicioAnterior'] = $inicioAnterior->format('Y-m-d');
+        $filtros['fechaFinAnterior']    = $finAnterior->format('Y-m-d');
+        $filtros['etiquetaActual']      = $inicio->format('d/m/Y') . ' - ' . $fin->format('d/m/Y');
+        $filtros['etiquetaAnterior']    = $inicioAnterior->format('d/m/Y') . ' - ' . $finAnterior->format('d/m/Y');
+
+        return $filtros;
+    }
+
+    private function normalizarFecha(string $fecha): ?string
+    {
+        $fecha = trim($fecha);
+
+        if ($fecha === '') {
+            return null;
+        }
+
+        $date = DateTimeImmutable::createFromFormat('!Y-m-d', $fecha);
+
+        if ($date === false || $date->format('Y-m-d') !== $fecha) {
+            return null;
+        }
+
+        return $date->format('Y-m-d');
     }
 }
